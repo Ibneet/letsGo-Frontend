@@ -12,7 +12,10 @@ class HistoryJourneysScreen extends StatelessWidget {
     final journeys = journeysData.items;
     final historyJourneys = journeys.where(
       (journey){
-        return journey.withWhom!=null;
+        if(journey.uid == 'u1'){
+          return journey.withWhom!=null;
+        }
+        return false;
       }
     ).toList();
 

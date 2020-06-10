@@ -10,19 +10,19 @@ class Journeys with ChangeNotifier{
     from: 'Patiala',
     to: 'Jalandhar',
     date: DateTime.parse('2020-06-23'),
-    withWhom: 'u3'
+    withWhom: 'u2'
   ),
   Journey(
     jid: 'j2',
-    uid: 'u3',
+    uid: 'u1',
     from: 'Patiala',
-    to: 'Jalandhar',
+    to: 'Rajsthan',
     date: DateTime.parse('2020-06-23'),
     withWhom: null
   ),
   Journey(
     jid: 'j3',
-    uid: 'u2',
+    uid: 'u1',
     from: 'Chandigarh',
     to: 'Jalandhar',
     date: DateTime.parse('2020-04-12'),
@@ -30,20 +30,28 @@ class Journeys with ChangeNotifier{
   ),
   Journey(
     jid: 'j4',
-    uid: 'u4',
+    uid: 'u1',
     from: 'Chandigarh',
-    to: 'Jalandhar',
+    to: 'Manali',
     date: DateTime.parse('2020-04-12'),
     withWhom: null
   ),
   Journey(
     jid: 'j5',
-    uid: 'u5',
-    from: 'Chandigarh',
-    to: 'Jalandhar',
+    uid: 'u1',
+    from: 'Manali',
+    to: 'Shimla',
     date: DateTime.parse('2020-04-12'),
     withWhom: null
-  )
+  ),
+  Journey(
+    jid: 'j6',
+    uid: 'u2',
+    from: 'Patiala',
+    to: 'Jalandhar',
+    date: DateTime.parse('2020-06-23'),
+    withWhom: null
+  ),
 ];
 
   List<Journey> get items {
