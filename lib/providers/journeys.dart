@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../models/journey.dart';
+import './journey.dart';
 
 class Journeys with ChangeNotifier{
   List<Journey> _items = [
@@ -10,7 +10,7 @@ class Journeys with ChangeNotifier{
     from: 'Patiala',
     to: 'Jalandhar',
     date: DateTime.parse('2020-06-23'),
-    withWhom: null
+    withWhom: 'u3'
   ),
   Journey(
     jid: 'j2',
@@ -18,7 +18,7 @@ class Journeys with ChangeNotifier{
     from: 'Patiala',
     to: 'Jalandhar',
     date: DateTime.parse('2020-06-23'),
-    withWhom: 'u1'
+    withWhom: null
   ),
   Journey(
     jid: 'j3',

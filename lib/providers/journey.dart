@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class Journey{
+class Journey with ChangeNotifier{
   final String jid;
   final String uid;
   final String from;

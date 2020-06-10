@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import '../../models/journey.dart';
+import '../../providers/journey.dart';
 
 import './history_journeys_list.dart';
 
@@ -11,16 +12,20 @@ class HistoryGrid extends StatelessWidget {
  
   @override
   Widget build(BuildContext context) {
+
     return GridView.builder(
       padding: const EdgeInsets.all(10),
       itemCount: historyJourneys.length,
-      itemBuilder: (ctx, i) => HistoryJourneys(
-        historyJourneys[i].jid, 
-        historyJourneys[i].from, 
-        historyJourneys[i].to, 
-        historyJourneys[i].date,
-        historyJourneys[i].withWhom
-      ),
+      itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
+        value: historyJourneys[i],
+        child: HistoryJourneys(
+          historyJourneys[i].jid, 
+          historyJourneys[i].from, 
+          historyJourneys[i].to, 
+          historyJourneys[i].date,
+          historyJourneys[i].withWhom
+        ),
+      ), 
 
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,

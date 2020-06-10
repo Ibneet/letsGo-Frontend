@@ -17,32 +17,24 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'letsGo',
         theme: ThemeData(
-          primarySwatch: Colors.cyan,
-          accentColor: Colors.yellow,
-          fontFamily: 'GentiumBookBasic',
-          textTheme: ThemeData.light().textTheme.copyWith(
-            button: TextStyle(color: Colors.white),
-            headline1: TextStyle(
-              fontSize: 18, 
-              fontFamily: 'GentiumBookBasic',
-              color: Colors.white
-            ),
-          ),
-          appBarTheme: AppBarTheme(
+            primarySwatch: Colors.cyan,
+            accentColor: Color.fromRGBO(255, 255, 0, 1),
+            fontFamily: 'GentiumBookBasic',
             textTheme: ThemeData.light().textTheme.copyWith(
-              headline6: TextStyle(
-                fontFamily: 'Lobster',
-                fontSize: 28
-              ),
-            ),
-          )
-        ),
+                  button: TextStyle(color: Colors.white),
+                  headline1: TextStyle(
+                      fontSize: 18,
+                      fontFamily: 'GentiumBookBasic',
+                      color: Colors.white),
+                ),
+            appBarTheme: AppBarTheme(
+              textTheme: ThemeData.light().textTheme.copyWith(
+                    headline6: TextStyle(fontFamily: 'Lobster', fontSize: 28),
+                  ),
+            )),
         home: TabsScreen(),
-        routes: {
-          CompanionListScreen.routeName: (ctx) => CompanionListScreen() 
-        },
+        routes: {CompanionListScreen.routeName: (ctx) => CompanionListScreen()},
       ),
     );
   }
 }
-
