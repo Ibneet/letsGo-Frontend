@@ -2,13 +2,11 @@ import 'package:flutter/material.dart';
 
 import './journey_item.dart';
 import './add_new_journey.dart';
-import '../../dummy_data.dart';
 
 class ActiveJourneysScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    var appHeight =
-        MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
+    var appHeight = MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
       body: CustomScrollView(
         slivers: <Widget>[
@@ -19,7 +17,7 @@ class ActiveJourneysScreen extends StatelessWidget {
               child: const Text('Want A Companion'),
             ),
             pinned: true,
-            expandedHeight: appHeight * .35,
+            expandedHeight: appHeight * .25,
             flexibleSpace: FlexibleSpaceBar(
               background: AddNewJourney(),
             ),
@@ -33,7 +31,7 @@ class ActiveJourneysScreen extends StatelessWidget {
             ),
             delegate: SliverChildBuilderDelegate(
               (ctx, index) => JourneyItem(),
-              childCount: dummyJourneys.length*10,
+              childCount: 10,
             ),
           ),
         ],
