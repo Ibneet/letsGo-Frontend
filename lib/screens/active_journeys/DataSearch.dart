@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class DataSearch extends SearchDelegate<String> {
+  final String place;
+
+  DataSearch(this.place);
   final cities = [
     "mumbai",
     "patiala",
@@ -12,7 +15,9 @@ class DataSearch extends SearchDelegate<String> {
     //actions for appbar
     return [
       IconButton(
-        icon: Icon(Icons.clear),
+        icon: Icon(
+          Icons.clear,
+        ),
         onPressed: () {
           query = "";
         },
@@ -29,13 +34,24 @@ class DataSearch extends SearchDelegate<String> {
           progress: transitionAnimation,
         ),
         onPressed: () {
-          close(context, null);
+          close(
+            context,
+            this.query,
+          );
         });
   }
 
   @override
   Widget buildResults(BuildContext context) {
-    
+    // return close(context,query);
+    return GestureDetector(
+      onTap: () {
+        close(
+          context,
+          this.query,
+        );
+      },
+    );
   }
 
   @override
@@ -44,11 +60,14 @@ class DataSearch extends SearchDelegate<String> {
     return ListView(
       children: <Widget>[
         ListTile(
-          leading: Icon(Icons.location_city),
-          title: Text(cities[0]),
+          leading: Icon(
+            Icons.location_city,
+          ),
+          title: Text(
+            cities[0],
+          ),
         ),
       ],
     );
-    throw UnimplementedError();
   }
 }

@@ -22,7 +22,7 @@ class ActiveJourneysScreen extends StatelessWidget {
               child: const Text('Want A Companion'),
             ),
             pinned: true,
-            expandedHeight: appHeight * .25,
+            expandedHeight: appHeight * .3,
             flexibleSpace: FlexibleSpaceBar(
               background: AddNewJourney(),
             ),
