@@ -23,9 +23,10 @@ class MyApp extends StatelessWidget {
             textTheme: ThemeData.light().textTheme.copyWith(
                   button: TextStyle(color: Colors.white),
                   headline1: TextStyle(
-                      fontSize: 18,
-                      fontFamily: 'GentiumBookBasic',
-                      color: Colors.white),
+                    fontSize: 18,
+                    fontFamily: 'GentiumBookBasic',
+                    color: Colors.white
+                  ),
                 ),
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(

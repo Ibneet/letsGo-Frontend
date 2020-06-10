@@ -14,7 +14,7 @@ class Journey with ChangeNotifier{
     @required this.from,
     @required this.to,
     @required this.date,
-    this.withWhom 
+    @required this.withWhom 
   });
 }
 
