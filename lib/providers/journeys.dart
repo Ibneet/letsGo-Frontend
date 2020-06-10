@@ -56,8 +56,14 @@ class Journeys with ChangeNotifier {
     return _items.where((element) => element.uid == id).toList();
   }
 
-  void addJourney() {
-    // _items.add(value);
+  void addJourney(String uid, String from, String to, DateTime dateTime) {
+    _items.add(Journey(
+      jid: DateTime.now().toString(),
+      uid: uid,
+      from: from,
+      to: to,
+      date: dateTime,
+    ));
     notifyListeners();
   }
 }

@@ -1,10 +1,32 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import './DataSearch.dart';
+import '../../providers/journeys.dart';
 
-class AddNewJourney extends StatelessWidget {
+class AddNewJourney extends StatefulWidget {
+  @override
+  _AddNewJourneyState createState() => _AddNewJourneyState();
+}
+
+class _AddNewJourneyState extends State<AddNewJourney> {
+  String _source = 'Source';
+  String _destination = 'Destination';
+  DateTime _date;
+
+  void initState() {
+    setState(() {
+      _source = 'Source';
+      _destination = 'Destination';
+    });
+
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
+    Function _addJourney =
+        Provider.of<Journeys>(context, listen: false).addJourney;
+
     var mediaQuery = MediaQuery.of(context);
     var appHeight = mediaQuery.size.height - mediaQuery.padding.top;
     return Container(
@@ -19,8 +41,13 @@ class AddNewJourney extends StatelessWidget {
             onTap: () {
               showSearch(
                 context: context,
-                delegate: DataSearch(),
-              );
+                delegate: DataSearch(_source),
+              ).then((result) {
+                setState(() {
+                  _source = result;
+                  print(_source);
+                });
+              });
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -37,7 +64,7 @@ class AddNewJourney extends StatelessWidget {
                       alignment: Alignment.center,
                       width: mediaQuery.size.width * 0.5,
                       child: Text(
-                        'Source',
+                        '$_source',
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),
@@ -51,8 +78,13 @@ class AddNewJourney extends StatelessWidget {
             onTap: () {
               showSearch(
                 context: context,
-                delegate: DataSearch(),
-              );
+                delegate: DataSearch(_destination),
+              ).then((result) {
+                setState(() {
+                  _destination = result;
+                  print(_source);
+                });
+              });
             },
             child: Container(
               padding: const EdgeInsets.all(5),
@@ -68,8 +100,8 @@ class AddNewJourney extends StatelessWidget {
                     Container(
                       alignment: Alignment.center,
                       width: mediaQuery.size.width * 0.5,
-                      child: const Text(
-                        'Destination',
+                      child: Text(
+                        '$_destination',
                         style: const TextStyle(fontSize: 18),
                       ),
                     ),
@@ -81,6 +113,66 @@ class AddNewJourney extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class DataSearch extends SearchDelegate<String> {
+  final String place;
+
+  DataSearch(this.place);
+  final cities = [
+    "mumbai",
+    "patiala",
+    "jalandhar",
+    'beawar',
+  ];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    //actions for appbar
+    return [
+      IconButton(
+        icon: Icon(Icons.clear),
+        onPressed: () {
+          query = "";
+        },
+      )
+    ];
+  }
+
+  @override
+  Widget buildLeading(BuildContext context) {
+    //leading icon
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: () {
+          close(context, query);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    // return close(context,query);
+    return GestureDetector(
+      onTap: () {
+        close(context, this.query);
+      },
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    //show when someone searches
+    return ListView(
+      children: <Widget>[
+        ListTile(
+          leading: Icon(Icons.location_city),
+          title: Text(cities[0]),
+        ),
+      ],
     );
   }
 }

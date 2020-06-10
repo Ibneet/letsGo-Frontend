@@ -14,7 +14,7 @@ class DataSearch extends SearchDelegate<String> {
       IconButton(
         icon: Icon(Icons.clear),
         onPressed: () {
-          query = " ";
+          query = "";
         },
       )
     ];
@@ -35,9 +35,7 @@ class DataSearch extends SearchDelegate<String> {
 
   @override
   Widget buildResults(BuildContext context) {
-    return Card(
-      child: Text(query),
-    );
+    
   }
 
   @override
