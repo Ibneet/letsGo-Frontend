@@ -33,7 +33,9 @@ class MyApp extends StatelessWidget {
                   ),
             )),
         home: TabsScreen(),
-        routes: {CompanionListScreen.routeName: (ctx) => CompanionListScreen()},
+        routes: {
+          CompanionListScreen.routeName: (ctx) => CompanionListScreen(),
+        },
       ),
     );
   }

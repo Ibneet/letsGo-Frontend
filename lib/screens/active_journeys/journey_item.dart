@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class JourneyItem extends StatelessWidget {
+  final String journeySource;
+  final String journeyDestination;
+  final DateTime journeyDate;
+
+  JourneyItem({this.journeyDate, this.journeyDestination, this.journeySource});
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -21,7 +27,7 @@ class JourneyItem extends StatelessWidget {
             children: <Widget>[
               Center(
                 child: Text(
-                  'Date',
+                  DateFormat.yMMMd().format(journeyDate),
                   style: TextStyle(
                     fontSize: 14,
                   ),
@@ -37,7 +43,7 @@ class JourneyItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: <Widget>[
                         Text(
-                          'Source',
+                          journeySource,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
@@ -48,7 +54,7 @@ class JourneyItem extends StatelessWidget {
                           height: 5,
                         ),
                         Text(
-                          'Destination',
+                          journeyDestination,
                           style: TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
