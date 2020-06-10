@@ -12,23 +12,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'letsGo',
       theme: ThemeData(
-        primarySwatch: Colors.cyan,
-        accentColor: Colors.yellow,
-        fontFamily: 'GentiumBookBasic',
-        textTheme: ThemeData.light().textTheme.copyWith(
-          button: TextStyle(color: Colors.white),
-        ),
-        appBarTheme: AppBarTheme(
+          primarySwatch: Colors.cyan,
+          accentColor: Colors.yellow,
+          fontFamily: 'GentiumBookBasic',
           textTheme: ThemeData.light().textTheme.copyWith(
-            headline6: TextStyle(
-              fontFamily: 'Lobster',
-              fontSize: 28
-            )
-          ),
-        )
-      ),
-      home: TabsScreen()
+                button: TextStyle(color: Colors.white),
+              ),
+          appBarTheme: AppBarTheme(
+            textTheme: ThemeData.light().textTheme.copyWith(
+                  headline6: TextStyle(fontFamily: 'Lobster', fontSize: 28),
+                ),
+          )),
+      routes: {
+        TabsScreen.routeName: (ctx) => TabsScreen(),
+      },
     );
   }
 }
-
