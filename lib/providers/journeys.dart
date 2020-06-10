@@ -90,6 +90,7 @@ class Journeys with ChangeNotifier {
       to: to,
       date: dateTime,
       withWhom: null
+    
     ));
     notifyListeners();
   }

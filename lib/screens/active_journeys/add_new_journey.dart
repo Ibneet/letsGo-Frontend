@@ -198,7 +198,12 @@ class _AddNewJourneyState extends State<AddNewJourney> {
                       ),
                     ),
                   ),
-                  onTap: null,
+                  onTap: () => _addJourney(
+                    'u1',
+                    _source,
+                    _destination,
+                    _selectedDate,
+                  ),
                 ),
               ),
             ],
