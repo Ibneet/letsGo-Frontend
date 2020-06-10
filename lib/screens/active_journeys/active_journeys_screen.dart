@@ -9,7 +9,7 @@ class ActiveJourneysScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var journeys = Provider.of<Journeys>(context);
-    var journeysData = journeys.items;
+    var journeysData = journeys.itemsUser('u1');
     var appHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
@@ -39,6 +39,7 @@ class ActiveJourneysScreen extends StatelessWidget {
                 journeyDate: journeysData[index].date,
                 journeyDestination: journeysData[index].to,
                 journeySource: journeysData[index].from,
+                journeyWith: journeysData[index].withWhom,
               ),
               childCount: journeysData.length,
             ),
