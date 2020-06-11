@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
       child: MaterialApp(
         title: 'letsGo',
         theme: ThemeData(
-            primarySwatch: Colors.cyan,
+            primarySwatch: Colors.purple,
             accentColor: Color.fromRGBO(255, 255, 0, 1),
             fontFamily: 'GentiumBookBasic',
             textTheme: ThemeData.light().textTheme.copyWith(

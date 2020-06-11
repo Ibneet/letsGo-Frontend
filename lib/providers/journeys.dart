@@ -64,19 +64,19 @@ class Journeys with ChangeNotifier {
     ).toList();
   }
 
-  // int get countHistJourneys {
-  //   List<Journey> histJourneys = _items.where(
-  //     (journey) => journey.withWhom!=null
-  //   ).toList();
-  //   return (historyJourneys==null)? 0: histJourneys.length;
-  // }
+  int get countHistJourneys {
+    List<Journey> histJourneys = _items.where(
+      (journey) => journey.withWhom==null
+    ).toList();
+    return (historyJourneys==null)? 0: histJourneys.length;
+  }
 
-  // int get countCurrJourneys {
-  //   List<Journey> currJourneys = _items.where(
-  //     (journey) => journey.withWhom!=null
-  //   ).toList();
-  //   return (currJourneys==null)? 0: currJourneys.length;
-  // }
+  int get countCurrJourneys {
+    List<Journey> currJourneys = _items.where(
+      (journey) => journey.withWhom!=null
+    ).toList();
+    return (currJourneys==null)? 0: currJourneys.length;
+  }
 
   List<Journey> itemsUser(String id) {
     return _items.where((element) => element.uid == id).toList();

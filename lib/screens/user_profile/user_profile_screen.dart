@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
+import '../../providers/journeys.dart';
 import '../../dummy_data.dart';
 
 class UserProfileScreen extends StatelessWidget {
@@ -21,7 +23,7 @@ class UserProfileScreen extends StatelessWidget {
         style: TextStyle(
           fontSize: 14,
           fontFamily: 'GentiumBookBasic',
-          color: Colors.grey
+          color: Colors.white
         )
       ),
       subtitle: Text(
@@ -29,7 +31,7 @@ class UserProfileScreen extends StatelessWidget {
         style: TextStyle(
           fontSize: 20,
           fontFamily: 'GentiumBookBasic',
-          color: Colors.black
+          color: Colors.white
         )
       ),
     );
@@ -37,80 +39,222 @@ class UserProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final journeysData = Provider.of<Journeys>(context);
+    final int countCurrent = journeysData.countCurrJourneys;
+    final int countHistory = journeysData.countHistJourneys;
+
     final appHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            Material(
-              elevation: 20.0,
-              borderRadius: BorderRadius.only(
-                bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(30),
-                  bottomRight: Radius.circular(30)
+      body: Stack(
+        children: [
+          Container(
+            width: double.infinity,
+            height: appHeight,
+            child: Image.network(
+              currentUser.imageUrl,
+              fit: BoxFit.cover,
+            ),
+          ),
+          DraggableScrollableSheet(
+            initialChildSize: 0.2,
+            maxChildSize: 0.8,
+            minChildSize: 0.2,
+            builder: (context, controller){
+              return Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(40),
+                    topRight: Radius.circular(40)
+                  ),
+                  gradient: LinearGradient(
+                    colors: [
+                      Colors.black.withOpacity(0.5),
+                      Colors.black
+                    ],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter
+                  )
                 ),
-                child: Stack(
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      height: appHeight*0.4 ,
-                      child: Image.network(
-                        currentUser.imageUrl,
-                        fit: BoxFit.cover,
-                      ),
+                child: SingleChildScrollView(
+                  controller: controller,
+                  child: Container(
+                    height: MediaQuery.of(context).size.height,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                      children: <Widget>[
+                        Container(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          child: Icon(
+                            Icons.arrow_drop_up, 
+                            size: 35, 
+                            color: Colors.white,
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height*0.6,
+                          child: Column(
+                            children: [
+                              listTile(
+                                Icon(Icons.perm_identity), 
+                                'Name', 
+                                currentUser.name
+                              ),
+                              Divider(color: Colors.white,),
+                              listTile(
+                                Icon(Icons.phone), 
+                                'Phone Number', 
+                                currentUser.phoneNumber
+                              ),
+                              Divider(color: Colors.white,),
+                              listTile(
+                                Icon(Icons.email), 
+                                'Email', 
+                                currentUser.email
+                              ),
+                              Divider(color: Colors.white,),
+                              listTile(
+                                Icon(Icons.cake), 
+                                'D.O.B.', 
+                                DateFormat.yMMMMd().format(currentUser.dob)
+                              ),
+                              Divider(color: Colors.white,),
+                              listTile(
+                                Icon(Icons.work), 
+                                'Occupation', 
+                                currentUser.occupation
+                              ),
+                              Divider(color: Colors.white,),
+                              listTile(
+                                Icon(Icons.accessibility), 
+                                'Gender', 
+                                currentUser.gender
+                              ),
+                              Divider(color: Colors.white,),
+                            ]
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height*0.2,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                            children: <Widget>[
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.1,
+                                    padding: EdgeInsets.symmetric(horizontal:4),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.pink[100],
+                                          Colors.purple[200],
+                                          Colors.cyan,
+                                          Colors.lightBlue[200]
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight
+                                      )
+                                    ),
+                                    width: MediaQuery.of(context).size.width*0.5,
+                                    child: Text(
+                                      '$countCurrent',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontFamily: 'GentiumBookBasic',
+                                        color: Colors.black
+                                      )
+                                    ),
+                                  ),
+                                  Text(
+                                    'Current Journeys',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'GentiumBookBasic',
+                                      color: Colors.white
+                                    )
+                                  )
+                                ],
+                              ),
+                              Column(
+                                children: <Widget>[
+                                  Container(
+                                    height: MediaQuery.of(context).size.height*0.1,
+                                    padding: EdgeInsets.symmetric(horizontal:4),
+                                    alignment: Alignment.center,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      gradient: LinearGradient(
+                                        colors: [
+                                          Colors.pink[100],
+                                          Colors.purple[200],
+                                          Colors.cyan,
+                                          Colors.lightBlue[200]
+                                        ],
+                                        begin: Alignment.topLeft,
+                                        end: Alignment.bottomRight
+                                      )
+                                    ),
+                                    width: MediaQuery.of(context).size.width*0.5,
+                                    child: Text(
+                                      '$countHistory',
+                                      style: TextStyle(
+                                        fontSize: 30,
+                                        fontFamily: 'GentiumBookBasic',
+                                        color: Colors.black
+                                      )
+                                    ),
+                                  ),
+                                  Text(
+                                    'History Journeys',
+                                    style: TextStyle(
+                                      fontSize: 18,
+                                      fontFamily: 'GentiumBookBasic',
+                                      color: Colors.white
+                                    )
+                                  )
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height*0.1,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: <Widget>[
+                              Spacer(),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.settings,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: (){},
+                              ),
+                              Spacer(),
+                              IconButton(
+                                icon: Icon(
+                                  Icons.edit,
+                                  color: Colors.white,
+                                  size: 30,
+                                ),
+                                onPressed: (){},
+                              ),
+                              Spacer(),
+                            ]
+                          ),
+                        )
+                      ],
                     ),
-                    Positioned(
-                      right: 3,
-                      bottom: 1,
-                      child: FloatingActionButton(
-                        onPressed: (){
-                          
-                        },
-                        child: Icon(Icons.edit),
-                      ),
-                    )
-                  ], 
-                ),
-              ),
-            ),
-            listTile(
-              Icon(Icons.perm_identity), 
-              'Name', 
-              currentUser.name
-            ),
-            listTile(
-              Icon(Icons.phone), 
-              'Phone Number', 
-              currentUser.phoneNumber
-            ),
-            listTile(
-              Icon(Icons.email), 
-              'Email', 
-              currentUser.email
-            ),
-            listTile(
-              Icon(Icons.cake), 
-              'D.O.B.', 
-              DateFormat.yMMMMd().format(currentUser.dob)
-            ),
-            listTile(
-              Icon(Icons.work), 
-              'Occupation', 
-              currentUser.occupation
-            ),
-            listTile(
-              Icon(Icons.accessibility), 
-              'Gender', 
-              currentUser.gender
-            ),
-          ],
-        ),
+                  ),
+                )
+              );
+            },
+          )
+        ], 
       ),
     );
   }
