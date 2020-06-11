@@ -84,7 +84,7 @@ class UserProfileScreen extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                       children: <Widget>[
                         Container(
-                          height: MediaQuery.of(context).size.height*0.1,
+                          height: MediaQuery.of(context).size.height*0.05,
                           child: Icon(
                             Icons.arrow_drop_up, 
                             size: 35, 
@@ -92,7 +92,7 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height*0.6,
+                          height: MediaQuery.of(context).size.height*0.7,
                           child: Column(
                             children: [
                               listTile(
@@ -135,7 +135,7 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height*0.2,
+                          height: MediaQuery.of(context).size.height*0.15,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                             children: <Widget>[
@@ -221,7 +221,7 @@ class UserProfileScreen extends StatelessWidget {
                           ),
                         ),
                         Container(
-                          height: MediaQuery.of(context).size.height*0.1,
+                          height: MediaQuery.of(context).size.height*0.05,
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.center,
                             children: <Widget>[
