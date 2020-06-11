@@ -18,31 +18,24 @@ class CompanionListScreen extends StatelessWidget {
           Card(
             margin: EdgeInsets.all(10),
             elevation: 6,
-            color: Colors.white,
+            color: Colors.pink[50],
             shape: RoundedRectangleBorder(
-              // side: BorderSide(
-              //   color: Colors.grey,
-              //   width: 1.0,
-              // ),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Center(
               child: Container(
-                child:
-                    // padding: EdgeInsets.all(15),
-                    //   child: Stack(
-                    // children: <Widget>[
-                    Column(
+                padding: EdgeInsets.all(10),
+                child: Column(
                   children: <Widget>[
                     Text(
-                      'YOU HAVE',
+                      'MATCHED COMPANIONS',
                       style: TextStyle(
-                        color: Colors.grey,
+                        color: Colors.grey[600],
                         fontSize: 16,
                       ),
                     ),
                     Text(
-                      '233',
+                      '23',
                       style: TextStyle(
                         color: Colors.black,
                         fontWeight: FontWeight.w400,
@@ -62,7 +55,12 @@ class CompanionListScreen extends StatelessWidget {
               bottom: 15,
             ),
             itemBuilder: (ctx, index) {
-              return CompanionList();
+              return Padding(
+                padding: index.isEven
+                    ? EdgeInsets.fromLTRB(10, 5, 5, 5)
+                    : EdgeInsets.fromLTRB(0, 5, 10, 5),
+                child: CompanionList(),
+              );
             },
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount: 2,
