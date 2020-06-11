@@ -3,14 +3,14 @@ import 'package:intl/intl.dart';
 
 import '../../dummy_data.dart';
 
-class HistoryJourneys extends StatelessWidget {
+class HistoryJourneysList extends StatelessWidget {
   final String jid;
   final String from;
   final String to;
   final DateTime date;
   final String withWhom;
 
-  HistoryJourneys(this.jid, this.from, this.to,this.date, this.withWhom);
+  HistoryJourneysList(this.jid, this.from, this.to,this.date, this.withWhom);
 
   @override
   Widget build(BuildContext context) {

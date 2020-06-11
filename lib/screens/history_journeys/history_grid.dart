@@ -18,7 +18,7 @@ class HistoryGrid extends StatelessWidget {
       itemCount: historyJourneys.length,
       itemBuilder: (ctx, i) => ChangeNotifierProvider.value(
         value: historyJourneys[i],
-        child: HistoryJourneys(
+        child: HistoryJourneysList(
           historyJourneys[i].jid, 
           historyJourneys[i].from, 
           historyJourneys[i].to, 

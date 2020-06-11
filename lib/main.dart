@@ -21,17 +21,17 @@ class MyApp extends StatelessWidget {
             accentColor: Color.fromRGBO(255, 255, 0, 1),
             fontFamily: 'GentiumBookBasic',
             textTheme: ThemeData.light().textTheme.copyWith(
-                  button: TextStyle(color: Colors.white),
-                  headline1: TextStyle(
-                    fontSize: 18,
-                    fontFamily: 'GentiumBookBasic',
-                    color: Colors.white
-                  ),
-                ),
+              button: TextStyle(color: Colors.white),
+              headline1: TextStyle(
+                fontSize: 18,
+                fontFamily: 'GentiumBookBasic',
+                color: Colors.white
+              ),
+            ),
             appBarTheme: AppBarTheme(
               textTheme: ThemeData.light().textTheme.copyWith(
-                    headline6: TextStyle(fontFamily: 'Lobster', fontSize: 28),
-                  ),
+                headline6: TextStyle(fontFamily: 'Lobster', fontSize: 28),
+              ),
             )),
         home: TabsScreen(),
         routes: {
