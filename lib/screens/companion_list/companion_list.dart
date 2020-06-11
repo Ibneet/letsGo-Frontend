@@ -45,21 +45,24 @@ class CompanionList extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                color: Theme.of(context).accentColor,
-                borderRadius: BorderRadius.only(
-                  bottomLeft: Radius.circular(10),
-                  bottomRight: Radius.circular(10),
+            child: InkWell(
+              onTap: () {},
+              child: Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  color: Theme.of(context).accentColor,
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(10),
+                    bottomRight: Radius.circular(10),
+                  ),
                 ),
-              ),
-              child: Center(
-                child: Text(
-                  'REQUEST',
-                  style: TextStyle(
-                    color: Colors.grey[700],
-                    fontSize: 18,
+                child: Center(
+                  child: Text(
+                    'REQUEST',
+                    style: TextStyle(
+                      color: Colors.grey[700],
+                      fontSize: 18,
+                    ),
                   ),
                 ),
               ),

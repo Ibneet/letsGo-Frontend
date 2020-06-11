@@ -11,18 +11,68 @@ class CompanionListScreen extends StatelessWidget {
           title: Text(
         'Ur Matched Companions',
       )),
-      body: GridView.builder(
-        padding: EdgeInsets.only(top: 20, bottom: 20),
-        itemBuilder: (ctx, index) {
-          return CompanionList();
-        },
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 4,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemCount: 10,
+      body: ListView(
+        shrinkWrap: true,
+        children: <Widget>[
+          Container(),
+          Card(
+            margin: EdgeInsets.all(10),
+            elevation: 6,
+            color: Colors.white,
+            shape: RoundedRectangleBorder(
+              // side: BorderSide(
+              //   color: Colors.grey,
+              //   width: 1.0,
+              // ),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Center(
+              child: Container(
+                child:
+                    // padding: EdgeInsets.all(15),
+                    //   child: Stack(
+                    // children: <Widget>[
+                    Column(
+                  children: <Widget>[
+                    Text(
+                      'YOU HAVE',
+                      style: TextStyle(
+                        color: Colors.grey,
+                        fontSize: 16,
+                      ),
+                    ),
+                    Text(
+                      '233',
+                      style: TextStyle(
+                        color: Colors.black,
+                        fontWeight: FontWeight.w400,
+                        fontSize: 30,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          GridView.builder(
+            shrinkWrap: true,
+            primary: false,
+            padding: EdgeInsets.only(
+              top: 5,
+              bottom: 15,
+            ),
+            itemBuilder: (ctx, index) {
+              return CompanionList();
+            },
+            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2,
+              childAspectRatio: 3 / 4,
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
+            itemCount: 10,
+          ),
+        ],
       ),
     );
   }
