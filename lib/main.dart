@@ -18,7 +18,7 @@ class MyApp extends StatelessWidget {
         title: 'letsGo',
         theme: ThemeData(
             primarySwatch: Colors.cyan,
-            accentColor: Color.fromRGBO(255, 255, 0, 1),
+            accentColor: Colors.orangeAccent[100],
             fontFamily: 'GentiumBookBasic',
             textTheme: ThemeData.light().textTheme.copyWith(
               button: TextStyle(color: Colors.white),
