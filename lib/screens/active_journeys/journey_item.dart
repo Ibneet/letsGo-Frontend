@@ -18,66 +18,72 @@ class JourneyItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.fromLTRB(20, 5, 20, 5),
+      margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
       elevation: 12,
       // color: Theme.of(context).accentColor,
-      child: Container(
-        padding: const EdgeInsets.all(10),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: <Widget>[
-            Center(
-              child: Text(
-                DateFormat.yMMMd().format(journeyDate),
-                style: TextStyle(
-                  fontSize: 14,
+
+      child: InkWell(
+        onTap: () {
+          Navigator.of(context).pushNamed(CompanionListScreen.routeName);
+        },
+        child: Container(
+          padding: const EdgeInsets.all(10),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: <Widget>[
+              Center(
+                child: Text(
+                  DateFormat.yMMMd().format(journeyDate),
+                  style: TextStyle(
+                    fontSize: 14,
+                  ),
                 ),
               ),
-            ),
-            Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                  flex: 5,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: <Widget>[
-                      Text(
-                        journeySource,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w400,
+              Row(
+                mainAxisSize: MainAxisSize.max,
+                children: <Widget>[
+                  Expanded(
+                    flex: 5,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Text(
+                          journeySource,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w400,
+                          ),
                         ),
-                      ),
-                      Divider(
-                        color: Colors.black,
-                        height: 5,
-                      ),
-                      Text(
-                        journeyDestination,
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
+                        Divider(
+                          color: Colors.black,
+                          height: 5,
                         ),
-                      ),
-                    ],
+                        Text(
+                          journeyDestination,
+                          style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-                Spacer(),
-                Expanded(
-                  flex: 1,
-                  child: Icon(
-                    Icons.import_export,
-                    size: 30,
+                  Spacer(),
+                  Expanded(
+                    flex: 1,
+                    child: Icon(
+                      Icons.import_export,
+                      size: 30,
+                    ),
                   ),
-                ),
-              ],
-            ),
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

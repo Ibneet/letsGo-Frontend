@@ -27,15 +27,9 @@ class ActiveJourneysScreen extends StatelessWidget {
             child: AddNewJourney(),
           ),
           Expanded(
-            child: ListWheelScrollView(
-              // onSelectedItemChanged: (index) {
-              //   return () {
-              //     Navigator.of(context)
-              //         .pushNamed(CompanionListScreen.routeName);
-              //   };
-              // },
-              itemExtent: 160,
-              diameterRatio: 5,
+            child: ListView(
+              itemExtent: appHeight* .2,
+              // diameterRatio: 5,
               children: journeysData.map(
                 (journey) {
                   return JourneyItem(
