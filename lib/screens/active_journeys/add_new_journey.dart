@@ -51,9 +51,9 @@ class _AddNewJourneyState extends State<AddNewJourney> {
     return Container(
       width: double.infinity,
       padding: EdgeInsets.only(
-        top: appHeight * 0.1,
+        top: appHeight * 0.01,
       ),
-      height: appHeight * .4,
+      height: appHeight * .25,
       child: Column(
         children: <Widget>[
           GestureDetector(
