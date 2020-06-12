@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
 import '../screens/active_journeys/active_journeys_screen.dart';
 import '../screens/history_journeys/history_journeys_screen.dart';
@@ -12,7 +13,6 @@ class TabsScreen extends StatefulWidget {
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  
   final List<Widget> _screens = [
     ActiveJourneysScreen(),
     HistoryJourneysScreen(),
@@ -31,23 +31,74 @@ class _TabsScreenState extends State<TabsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: _screens[_selectedScreenIndex],
-      bottomNavigationBar: BottomNavigationBar(
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {},
+        child: Icon(Icons.add),
+        backgroundColor: Theme.of(context).accentColor,
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      bottomNavigationBar: BubbleBottomBar(
+        opacity: .2,
         onTap: _selectScreen,
-        backgroundColor: Theme.of(context).primaryColor,
-        unselectedItemColor: Colors.white,
-        selectedItemColor: Theme.of(context).accentColor,
-        type: BottomNavigationBarType.fixed,
+        backgroundColor: Colors.white,
+        borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+        elevation: 8,
+        fabLocation: BubbleBottomBarFabLocation.end, //new
+        hasNotch: true,
+        hasInk: true,
+        inkColor: Colors.black12, //optional, uses
+        // backgroundColor: Theme.of(context).primaryColor,
+        // unselectedItemColor: Colors.white,
+        // selectedItemColor: Theme.of(context).accentColor,
+        // type: BottomNavigationBarType.fixed,
         currentIndex: _selectedScreenIndex,
-        items: [
-          BottomNavigationBarItem(
-              icon: Icon(Icons.location_on), title: Text('Active')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.history), title: Text('History')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.chat), title: Text('Chat')),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.person_pin), title: Text('Profile')),
-        ]),
+        items: <BubbleBottomBarItem>[
+          BubbleBottomBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.location_on,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.location_on,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("Active")),
+          BubbleBottomBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.history,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.history,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("History")),
+          BubbleBottomBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.chat,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.chat,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("Chat")),
+          BubbleBottomBarItem(
+              backgroundColor: Theme.of(context).primaryColor,
+              icon: Icon(
+                Icons.person_pin,
+                color: Colors.black,
+              ),
+              activeIcon: Icon(
+                Icons.person_pin,
+                color: Theme.of(context).primaryColor,
+              ),
+              title: Text("Profile"))
+        ],
+      ),
     );
   }
 }
