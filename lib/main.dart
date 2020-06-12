@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
 import './providers/journeys.dart';
 import './screens/companion_list/companion_list_screen.dart';
+import './screens/user_profile_edit/user_profile_edit_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -36,6 +37,7 @@ class MyApp extends StatelessWidget {
         home: TabsScreen(),
         routes: {
           CompanionListScreen.routeName: (ctx) => CompanionListScreen(),
+          UserProfileEditScreen.routeName: (ctx) => UserProfileEditScreen()
         },
       ),
     );
