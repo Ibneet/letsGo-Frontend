@@ -10,18 +10,16 @@ class HistoryJourneysList extends StatelessWidget {
   final DateTime date;
   final String withWhom;
 
-  HistoryJourneysList(this.jid, this.from, this.to,this.date, this.withWhom);
+  HistoryJourneysList(this.jid, this.from, this.to, this.date, this.withWhom);
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = dummyUsers.singleWhere(
-      (user) {
-        if(user.uid == withWhom){
-          return true;
-        }
-        return false;
+    final imageUrl = dummyUsers.singleWhere((user) {
+      if (user.uid == withWhom) {
+        return true;
       }
-    );
+      return false;
+    });
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: GridTile(
