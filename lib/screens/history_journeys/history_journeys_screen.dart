@@ -31,8 +31,8 @@ class _HistoryJourneysScreenState extends State<HistoryJourneysScreen> {
   @override
   Widget build(BuildContext context) {
     final _journeysData = Provider.of<Journeys>(context);
-    final _journeys = _journeysData.items;
-    // final _journeys = _journeysData.historyJourneys;
+    // final _journeys = _journeysData.items;
+    final _journeys = _journeysData.historyJourneys;
 
     return Scaffold(
         appBar: AppBar(

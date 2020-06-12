@@ -20,14 +20,14 @@ class HistoryCard extends StatelessWidget {
     final double top = active ? 100 : 200;
     final double bottom = active ? 60 : 100;
 
-    // final imageUrl = dummyUsers.singleWhere((user) {
-    //   if (user.uid == withWhom) {
-    //     return true;
-    //   }
-    //   return false;
-    // });
-    final imageUrl =
-        'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
+    final imageUrl = dummyUsers.singleWhere((user) {
+      if (user.uid == withWhom) {
+        return true;
+      }
+      return false;
+    });
+    // final imageUrl =
+    //     'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
     return AnimatedContainer(
       duration: Duration(
@@ -43,8 +43,8 @@ class HistoryCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
         image: DecorationImage(
           image: NetworkImage(
-            imageUrl,
-            // imageUrl.imageUrl,
+            // imageUrl,
+            imageUrl.imageUrl,
           ),
           fit: BoxFit.cover,
         ),
