@@ -4,7 +4,7 @@ import 'package:provider/provider.dart';
 import './journey_item.dart';
 import './add_new_journey.dart';
 import '../../providers/journeys.dart';
-import '../../screens/companion_list/companion_list_screen.dart';
+
 
 class ActiveJourneysScreen extends StatelessWidget {
   @override

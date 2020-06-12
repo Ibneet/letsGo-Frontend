@@ -4,7 +4,6 @@ class CompanionList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(10),
       ),
@@ -46,23 +45,25 @@ class CompanionList extends StatelessWidget {
             ),
           ),
           Expanded(
-            child: InkWell(
-              onTap: () {},
-              child: Container(
-                width: double.infinity,
-                decoration: BoxDecoration(
-                  color: Theme.of(context).accentColor,
-                  borderRadius: BorderRadius.only(
-                    bottomLeft: Radius.circular(10),
-                    bottomRight: Radius.circular(10),
+            child: Material(
+              child: InkWell(
+                onTap: () {},
+                child: Container(
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).accentColor,
+                    borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(10),
+                      bottomRight: Radius.circular(10),
+                    ),
                   ),
-                ),
-                child: Center(
-                  child: Text(
-                    'REQUEST',
-                    style: TextStyle(
-                      color: Colors.grey[700],
-                      fontSize: 18,
+                  child: Center(
+                    child: Text(
+                      'REQUEST',
+                      style: TextStyle(
+                        color: Colors.grey[700],
+                        fontSize: 18,
+                      ),
                     ),
                   ),
                 ),
