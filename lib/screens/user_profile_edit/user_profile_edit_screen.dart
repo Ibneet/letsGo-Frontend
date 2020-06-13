@@ -13,13 +13,13 @@ class UserProfileEditScreen extends StatelessWidget {
 
     final routeArgs = ModalRoute.of(context).settings.arguments as Map;
 
-    final userName = routeArgs['name'];
-    final userImage = routeArgs['imageUrl'];
-    final userGender = routeArgs['gender'];
-    final userDob = routeArgs['dob'];
-    final userEmail = routeArgs['email'];
-    final userPhoneNumber = routeArgs['phoneNumber'];
-    final userOccupation = routeArgs['occupation'];
+    var userName = routeArgs['name'];
+    var userImage = routeArgs['imageUrl'];
+    var userGender = routeArgs['gender'];
+    var userDob = routeArgs['dob'];
+    var userEmail = routeArgs['email'];
+    var userPhoneNumber = routeArgs['phoneNumber'];
+    var userOccupation = routeArgs['occupation'];
 
     return Scaffold(
       body: Stack(

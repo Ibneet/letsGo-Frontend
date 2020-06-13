@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 
 class User{
   final String uid;
-  final String name;
-  final String phoneNumber;
-  final String email;
-  final String gender;
-  final String occupation;
-  final String imageUrl;
+  String name;
+  String phoneNumber;
+  String email;
+  String gender;
+  String occupation;
+  String imageUrl;
   final DateTime dob;
   List<String> journeys;
 
