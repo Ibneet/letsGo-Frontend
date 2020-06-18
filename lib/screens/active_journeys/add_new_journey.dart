@@ -186,6 +186,7 @@ class _AddNewJourneyState extends State<AddNewJourney> {
                 height: appHeight * 0.075,
                 width: appWidth * 0.5,
                 child: InkWell(
+                  splashColor: Colors.black,
                   child: Card(
                     elevation: 6,
                     child: Container(
