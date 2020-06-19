@@ -6,11 +6,35 @@ import './add_new_journey.dart';
 import '../../providers/journeys.dart';
 
 
-class ActiveJourneysScreen extends StatelessWidget {
+class ActiveJourneysScreen extends StatefulWidget {
+  @override
+  _ActiveJourneysScreenState createState() => _ActiveJourneysScreenState();
+}
+
+class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if(_isInit){
+      setState(() {
+        _isLoading = true;
+      });
+      Provider.of<Journeys>(context).getActiveJourneys().then((_){
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
   @override
   Widget build(BuildContext context) {
     var journeys = Provider.of<Journeys>(context);
-    var journeysData = journeys.itemsUser();
+    var journeysData = journeys.items;
     var appHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
@@ -27,7 +51,9 @@ class ActiveJourneysScreen extends StatelessWidget {
             child: AddNewJourney(),
           ),
           Expanded(
-            child: ListView(
+            child: _isLoading 
+            ? Center(child: CircularProgressIndicator(),)
+            : ListView(
               itemExtent: appHeight* .2,
               // diameterRatio: 5,
               children: journeysData.map(

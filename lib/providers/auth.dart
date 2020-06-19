@@ -9,10 +9,6 @@ class Auth with ChangeNotifier{
   String _token;
   String _userId;
 
-  bool get isAuth{
-    return token != null;
-  }
-
   String get token{
     if(_token != null){
       return _token;
@@ -46,6 +42,10 @@ class Auth with ChangeNotifier{
     }catch(err){
       throw err;
     }
+  }
+
+  bool get isAuth{
+    return token != null;
   }
 
   Future<void> login( String email, String password) async {

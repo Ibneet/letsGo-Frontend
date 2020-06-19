@@ -4,6 +4,7 @@ import 'package:intl/intl.dart';
 
 import '../../providers/journeys.dart';
 import './DataSearch.dart';
+import '../../models/http_exception.dart';
 
 class AddNewJourney extends StatefulWidget {
   @override
@@ -39,12 +40,50 @@ class _AddNewJourneyState extends State<AddNewJourney> {
       });
     });
   }
+  var _isLoading = false;
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
+  }
+
+  Future<void> _addJourney() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try{
+      await Provider.of<Journeys>(context, listen: false).addJourney(
+        _source, 
+        _destination, 
+        _selectedDate,
+      );
+    }on HttpException catch(err){
+      final errMess = err.toString();
+      _showErrorDialog(errMess);
+    }catch(err){
+      const errMess = 'Could not add the journey, please try again later.';
+      _showErrorDialog(errMess);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
-    Function _addJourney =
-        Provider.of<Journeys>(context, listen: false).addJourney;
-
     var mediaQuery = MediaQuery.of(context);
     var appHeight = mediaQuery.size.height - mediaQuery.padding.top;
     var appWidth = mediaQuery.size.width;
@@ -185,7 +224,7 @@ class _AddNewJourneyState extends State<AddNewJourney> {
                 padding: const EdgeInsets.all(4),
                 height: appHeight * 0.075,
                 width: appWidth * 0.5,
-                child: InkWell(
+                child: _isLoading ?Center(child:CircularProgressIndicator()) :InkWell(
                   splashColor: Colors.black,
                   child: Card(
                     elevation: 6,
@@ -199,12 +238,7 @@ class _AddNewJourneyState extends State<AddNewJourney> {
                       ),
                     ),
                   ),
-                  onTap: () => _addJourney(
-                    'u1',
-                    _source,
-                    _destination,
-                    _selectedDate,
-                  ),
+                  onTap: _addJourney,
                 ),
               ),
             ],

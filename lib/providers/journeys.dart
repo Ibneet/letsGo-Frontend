@@ -5,65 +5,21 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import './journey.dart';
+import '../models/http_exception.dart';
 
 class Journeys with ChangeNotifier {
-  List<Journey> _items = [
-    // Journey(
-    //   jid: 'j1',
-    //   uid: 'u1',
-    //   from: 'Patiala',
-    //   to: 'Jalandhar',
-    //   date: DateTime.parse('2020-06-23'),
-    //   withWhom: 'u2'
-    // ),
-    // Journey(
-    //   jid: 'j2',
-    //   uid: 'u1',
-    //   from: 'Patiala',
-    //   to: 'Rajsthan',
-    //   date: DateTime.parse('2020-06-23'),
-    //   withWhom: null
-    // ),
-    // Journey(
-    //   jid: 'j3',
-    //   uid: 'u1',
-    //   from: 'Chandigarh',
-    //   to: 'Jalandhar',
-    //   date: DateTime.parse('2020-04-12'),
-    //   withWhom: null
-    // ),
-    // Journey(
-    //   jid: 'j4',
-    //   uid: 'u1',
-    //   from: 'Chandigarh',
-    //   to: 'Manali',
-    //   date: DateTime.parse('2020-04-12'),
-    //   withWhom: null
-    // ),
-    // Journey(
-    //   jid: 'j5',
-    //   uid: 'u1',
-    //   from: 'Manali',
-    //   to: 'Shimla',
-    //   date: DateTime.parse('2020-04-12'),
-    //   withWhom: null
-    // ),
-    // Journey(
-    //   jid: 'j6',
-    //   uid: 'u2',
-    //   from: 'Patiala',
-    //   to: 'Jalandhar',
-    //   date: DateTime.parse('2020-06-23'),
-    //   withWhom: null
-    // ),
-  ];
+  List<Journey> _items = [];
 
-  final String authToken;
+  final String _authToken;
 
-  Journeys(this.authToken, this._items);
+  Journeys(this._authToken, this._items);
 
   List<Journey> get items {
     return [..._items];
+  }
+
+  String get authToken {
+    return _authToken;
   }
 
   List<Journey> get historyJourneys {
@@ -88,11 +44,40 @@ class Journeys with ChangeNotifier {
 
   String id;
 
-  List<Journey> itemsUser() {
-    return _items.where((element) => element.creator == id).toList();
+  Future<void> getActiveJourneys() async {
+    const url = 'http://localhost:5000/api/journeys/current';
+    try{
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $authToken'
+        },
+      );
+      final responseData = json.decode(response.body);
+      final extractedData = responseData['journey'] as List<dynamic>;
+      final List<Journey> journeyData = [];
+      extractedData.forEach((journey) {
+        journeyData.add(Journey(
+          jid: journey['_id'],
+          from: journey['from'],
+          to: journey['to'],
+          date: DateTime.parse(journey['date']),
+          creator: journey['creator'],
+          withWhom: journey['withWhom']
+        ));
+      });
+      _items = journeyData;
+      // print(responseData['journey']);
+      notifyListeners();
+      if(responseData['message'] != null){
+        throw HttpException(responseData['message']);
+      }
+    }catch(err){
+      throw(err);
+    }
   }
 
-  Future<void> addJourney(String creator, String from, String to, DateTime dateTime) async {
+  Future<void> addJourney(String from, String to, DateTime dateTime) async {
     const url = 'http://localhost:5000/api/journeys';
     try{
       final response = await http.post(
@@ -108,6 +93,9 @@ class Journeys with ChangeNotifier {
         })
       );
       final responseData = json.decode(response.body);
+      if(responseData['message'] != null){
+        throw HttpException(responseData['message']);
+      }
       print(responseData);
       final newJourney = Journey(
         jid: responseData['journey']['_id'],
@@ -119,10 +107,9 @@ class Journeys with ChangeNotifier {
       );
       _items.add(newJourney);
       id = responseData['journey']['creator'];
+      notifyListeners();
     }catch(err){
-      print(err);
-      // throw err;
+      throw err;
     }
-    notifyListeners();
   }
 }
