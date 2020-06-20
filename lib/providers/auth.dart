@@ -2,12 +2,17 @@ import 'dart:convert';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier{
   String _token;
   String _userId;
+
+  bool get isAuth{
+    return token != null;
+  }
 
   String get token{
     if(_token != null){
@@ -39,13 +44,12 @@ class Auth with ChangeNotifier{
       _token = responseData['token'];
       _userId = responseData['createdUser']['_id'];
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({ 'token': _token, 'userId': _userId });
+      prefs.setString('userData', userData);
     }catch(err){
       throw err;
     }
-  }
-
-  bool get isAuth{
-    return token != null;
   }
 
   Future<void> login( String email, String password) async {
@@ -70,6 +74,45 @@ class Auth with ChangeNotifier{
       _token = responseData['token'];
       _userId = responseData['existingUser']['_id'];
       notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      final userData = json.encode({ 'token': _token, 'userId': _userId });
+      prefs.setString('userData', userData);
+    }catch(err){
+      throw err;
+    }
+  }
+
+  Future<bool> tryAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if(!prefs.containsKey('userData')){
+      return false;
+    }
+    final extractedUserData = json.decode(prefs.getString('userData')) as Map<String, Object>;
+    _token = extractedUserData['token'];
+    _userId = extractedUserData['userId'];
+    notifyListeners();
+    return true;
+  }
+
+  Future<void> logout() async {
+    const url = 'http://localhost:5000/api/users/logout';
+    try{
+      final response = await http.post(
+        url,
+        headers: {
+          'Authorization': 'Bearer $_token',
+        },
+      );
+      final responseData = json.decode(response.body);
+      print(responseData);
+      if(responseData['message'] != null){
+        throw HttpException(responseData['message']);
+      }
+      _token = null;
+      _userId = null;
+      notifyListeners();
+      final prefs = await SharedPreferences.getInstance();
+      prefs.clear();
     }catch(err){
       throw err;
     }

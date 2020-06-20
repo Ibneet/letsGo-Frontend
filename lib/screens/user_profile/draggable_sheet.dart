@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../user_profile_edit/user_profile_edit_screen.dart';
 import './journeys_count.dart';
 import './user_data.dart';
 import '../../models/user.dart';
+import '../../providers/auth.dart';
+import '../../models/http_exception.dart';
 
 class DraggableSheet extends StatelessWidget {
   final User currentUser;
@@ -103,41 +106,92 @@ class DraggableSheet extends StatelessWidget {
                       ]
                     ),
                   ),
-                  InkWell(
-                    onTap: (){},
-                    splashColor: Colors.red,
-                    radius: 2,
-                    child: Container(
-                      alignment: Alignment.center,
-                      height: MediaQuery.of(context).size.height*0.075,
-                      child: ShaderMask(
-                        shaderCallback: (bounds) => 
-                        RadialGradient(
-                          center: Alignment.topLeft,
-                          radius: 1.0,
-                          colors: [
-                            Colors.red[300],
-                            Colors.deepOrange
-                          ],
-                          tileMode: TileMode.mirror
-                        ).createShader(bounds),
-                        child: const Text(
-                          'Sign Out',
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 25,
-                            fontFamily: 'GentiumBookBasic'
-                          ),
-                        ),
-                      ),
-                    ),
-                  )
+                  Signout()
                 ],
               ),
             ),
           )
         );
       },
+    );
+  }
+}
+
+class Signout extends StatefulWidget {
+  @override
+  _SignoutState createState() => _SignoutState();
+}
+
+class _SignoutState extends State<Signout> {
+  var _isLoading = false;
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
+  }
+
+  Future<void> _signout() async {
+    setState(() {
+      _isLoading = true;
+    });
+    try{
+      await Provider.of<Auth>(context, listen: false).logout();
+    }on HttpException catch(err){
+      final errMess = err.toString();
+      _showErrorDialog(errMess);
+    }catch(err){
+      const errMess = 'Could not sign you out, please try again later.';
+      _showErrorDialog(errMess);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+  @override
+  Widget build(BuildContext context) {
+    return _isLoading 
+    ? CircularProgressIndicator()
+    : InkWell(
+      onTap: _signout,
+      splashColor: Colors.red,
+      radius: 2,
+      child: Container(
+        alignment: Alignment.center,
+        height: MediaQuery.of(context).size.height*0.075,
+        child: ShaderMask(
+          shaderCallback: (bounds) => 
+          RadialGradient(
+            center: Alignment.topLeft,
+            radius: 1.0,
+            colors: [
+              Colors.red[300],
+              Colors.deepOrange
+            ],
+            tileMode: TileMode.mirror
+          ).createShader(bounds),
+          child: const Text(
+            'Sign Out',
+            style: TextStyle(
+              color: Colors.white,
+              fontSize: 25,
+              fontFamily: 'GentiumBookBasic'
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

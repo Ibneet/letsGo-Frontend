@@ -67,7 +67,7 @@ class Journeys with ChangeNotifier {
           from: journey['from'],
           to: journey['to'],
           date: DateTime.parse(journey['date']),
-          creator: journey['creator'],
+          // creator: journey['creator'],
           withWhom: journey['withWhom']
         ));
       });
@@ -101,7 +101,7 @@ class Journeys with ChangeNotifier {
       print(responseData);
       final newJourney = Journey(
         jid: responseData['journey']['_id'],
-        creator: responseData['journey']['creator'],
+        // creator: responseData['journey']['creator'],
         from: from,
         to: to,
         date: dateTime,

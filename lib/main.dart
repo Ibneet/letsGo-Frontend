@@ -7,6 +7,7 @@ import './providers/auth.dart';
 import './screens/companion_list/companion_list_screen.dart';
 import './screens/user_profile_edit/user_profile_edit_screen.dart';
 import './screens/auth/auth_screen.dart';
+import './screens/splash_screen.dart';
 
 void main() {
   runApp(MyApp());
@@ -46,7 +47,15 @@ class MyApp extends StatelessWidget {
                       headline6: TextStyle(fontFamily: 'Lobster', fontSize: 28),
                     ),
               )),
-          home: auth.isAuth ? TabsScreen() : AuthScreen(),
+          home: auth.isAuth 
+                ? TabsScreen() 
+                : FutureBuilder(
+                    future: auth.tryAutoLogin(),
+                    builder: (ctx, authResultSnapshot) => 
+                      authResultSnapshot.connectionState == ConnectionState.waiting
+                        ? SplashScreen()
+                        : AuthScreen(),
+                  ),
           routes: {
             CompanionListScreen.routeName: (ctx) => CompanionListScreen(),
             UserProfileEditScreen.routeName: (ctx) => UserProfileEditScreen()
