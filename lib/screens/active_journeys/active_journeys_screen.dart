@@ -41,7 +41,7 @@ class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
     showDialog(
       context: context,
       builder:(ctx) => AlertDialog(
-        title: Text('An Error Occurred!'),
+        // title: Text('An Error Occurred!'),
         content: Text(message),
         actions: <Widget>[
           FlatButton(
