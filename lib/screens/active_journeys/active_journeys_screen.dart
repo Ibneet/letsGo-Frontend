@@ -25,10 +25,34 @@ class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
         setState(() {
           _isLoading = false;
         });
+      }).catchError((err){
+        final errMess = err.toString();
+        _showErrorDialog(errMess);
+        setState(() {
+          _isLoading = false;
+        });
       });
     }
     _isInit = false;
     super.didChangeDependencies();
+  }
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
   }
 
   @override

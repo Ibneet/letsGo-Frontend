@@ -54,6 +54,11 @@ class Journeys with ChangeNotifier {
         },
       );
       final responseData = json.decode(response.body);
+      print(responseData);
+      if(responseData['message'] != null){
+        _items = [];
+        throw HttpException(responseData['message']);
+      }
       final extractedData = responseData['journey'] as List<dynamic>;
       final List<Journey> journeyData = [];
       extractedData.forEach((journey) {
@@ -69,9 +74,6 @@ class Journeys with ChangeNotifier {
       _items = journeyData;
       // print(responseData['journey']);
       notifyListeners();
-      if(responseData['message'] != null){
-        throw HttpException(responseData['message']);
-      }
     }catch(err){
       throw(err);
     }
