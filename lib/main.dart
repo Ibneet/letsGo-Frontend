@@ -12,7 +12,7 @@ import './screens/splash_screen.dart';
 void main() {
   runApp(MyApp());
 }
-
+//Error resolved.
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
