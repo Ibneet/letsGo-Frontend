@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:http/http.dart' as http;
@@ -7,6 +8,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../models/http_exception.dart';
 
 class Auth with ChangeNotifier{
+  final port = Platform.isIOS ? 'localhost' : '10.0.2.2';
   String _token;
   String _userId;
 
@@ -22,7 +24,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> signup(String name, String email, String password) async {
-    const url = 'http://localhost:5000/api/users/signup';
+    final url = 'http://$port:5000/api/users/signup';
     try{
       final response = await http.post(
         url,
@@ -53,7 +55,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> login( String email, String password) async {
-    const url = 'http://localhost:5000/api/users/login';
+    final url = 'http://$port:5000/api/users/login';
     try{
       final response = await http.post(
         url,
@@ -95,7 +97,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> logout() async {
-    const url = 'http://localhost:5000/api/users/logout';
+    final url = 'http://$port:5000/api/users/logout';
     try{
       final response = await http.post(
         url,
