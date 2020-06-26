@@ -45,7 +45,7 @@ class Journeys with ChangeNotifier {
   String id;
 
   Future<void> getActiveJourneys() async {
-    const url = 'http://localhost:5000/api/journeys/current';
+    const url = 'http://10.0.2.2:5000/api/journeys/current';
     try{
       final response = await http.get(
         url,
@@ -80,7 +80,7 @@ class Journeys with ChangeNotifier {
   }
 
   Future<void> addJourney(String from, String to, DateTime dateTime) async {
-    const url = 'http://localhost:5000/api/journeys';
+    const url = 'http://10.0.2.2:5000/api/journeys';
     try{
       final response = await http.post(
         url, 
