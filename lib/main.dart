@@ -27,7 +27,8 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProxyProvider<Auth, Journeys>(
             update: (ctx, auth, prevJourneys) => Journeys(
-                auth.token, prevJourneys == null ? [] : prevJourneys.items),
+                auth.token, 
+                prevJourneys == null ? [] : prevJourneys.items),
           )
         ],
         child: Consumer<Auth>(

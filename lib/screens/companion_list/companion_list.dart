@@ -1,9 +1,28 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../../screens/chat/chat_screen.dart';
 import '../../screens/companion_list/companion_detail_screen.dart';
 
 class CompanionList extends StatelessWidget {
+  final String name;
+  final DateTime dob;
+  final String occupation;
+  final String gender;
+  final String from;
+  final String to;
+  final DateTime date;
+  
+  CompanionList({
+    this.name, 
+    this.dob, 
+    this.occupation, 
+    this.gender,
+    this.from,
+    this.to,
+    this.date
+  });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -13,7 +32,15 @@ class CompanionList extends StatelessWidget {
       elevation: 6,
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(CompanionDetailScreen.routeName);
+          Navigator.of(context).pushNamed(
+            CompanionDetailScreen.routeName,
+            arguments: {
+              'name': name,
+              'from': from,
+              'to': to,
+              'date': date
+            }
+          );
         },
         child: Card(
           shape: RoundedRectangleBorder(
@@ -43,18 +70,25 @@ class CompanionList extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 6),
                   Text(
-                    'Name',
+                    '$name',
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       fontSize: 18,
                     ),
                   ),
                   SizedBox(
-                    height: 50,
+                    height: 60,
                     child: Center(
-                      child: Text('Description'),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: <Widget>[
+                          Text(DateFormat.yMMMd().format(dob)),
+                          Text('$occupation'),
+                          Text('$gender')
+                        ],
+                      ),
                     ),
                   ),
                 ],

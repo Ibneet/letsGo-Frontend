@@ -7,6 +7,12 @@ class CompanionDetailScreen extends StatelessWidget {
   static const routeName = '/companion-detail';
   @override
   Widget build(BuildContext context) {
+    final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final name = routeArgs['name'];
+    final source = routeArgs['from'];
+    final destination = routeArgs['to'];
+    final date = routeArgs['date'];
+
     var appHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
@@ -41,7 +47,7 @@ class CompanionDetailScreen extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.spaceAround,
                         children: <Widget>[
                           Text(
-                            "User Number 1",
+                            "$name",
                             style: TextStyle(
                               fontSize: 26,
                               fontWeight: FontWeight.w700,
@@ -55,7 +61,7 @@ class CompanionDetailScreen extends StatelessWidget {
                           ),
                           Center(
                             child: Text(
-                              '20-05-2020',
+                              DateFormat.yMMMMd().format(date),
                               style: TextStyle(
                                 fontSize: 20,
                               ),
@@ -72,7 +78,7 @@ class CompanionDetailScreen extends StatelessWidget {
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: <Widget>[
                                     Text(
-                                      "journeySource",
+                                      "$source",
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w400,
@@ -83,7 +89,7 @@ class CompanionDetailScreen extends StatelessWidget {
                                       height: 5,
                                     ),
                                     Text(
-                                      "journeyDestination",
+                                      "$destination",
                                       style: TextStyle(
                                         fontSize: 22,
                                         fontWeight: FontWeight.w500,

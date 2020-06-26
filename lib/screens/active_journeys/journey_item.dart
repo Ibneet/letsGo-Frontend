@@ -27,7 +27,14 @@ class JourneyItem extends StatelessWidget {
 
       child: InkWell(
         onTap: () {
-          Navigator.of(context).pushNamed(CompanionListScreen.routeName);
+          Navigator.of(context).pushNamed(
+            CompanionListScreen.routeName,
+            arguments: {
+              'from': journeySource,
+              'to': journeyDestination,
+              'date': journeyDate
+            }
+          );
         },
         child: Container(
           padding: const EdgeInsets.all(10),

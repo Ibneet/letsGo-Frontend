@@ -1,17 +1,81 @@
 import 'package:flutter/material.dart';
+
+import 'package:provider/provider.dart';
+import '../../providers/journeys.dart';
 import './companion_list.dart';
 
-class CompanionListScreen extends StatelessWidget {
+class CompanionListScreen extends StatefulWidget {
   static const routeName = '/companion-list';
 
   @override
+  _CompanionListScreenState createState() => _CompanionListScreenState();
+}
+
+class _CompanionListScreenState extends State<CompanionListScreen> {
+
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if(_isInit){
+      setState(() {
+        _isLoading = true;
+      });
+      final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      final from = routeArgs['from'];
+      final to = routeArgs['to'];
+      final date = routeArgs['date'];
+      Provider.of<Journeys>(context).getCompanions(
+        from,
+        to,
+        date
+      ).then((_){
+        setState(() {
+          _isLoading = false;
+        });
+      }).catchError((err){
+        final errMess = err.toString();
+        _showErrorDialog(errMess);
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        // title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
+  }
+
+  @override
   Widget build(BuildContext context) {
+    var companions = Provider.of<Journeys>(context);
+    var companionsData = companions.compaions;
     return Scaffold(
       appBar: AppBar(
           title: Text(
         'Ur Matched Companions',
       )),
-      body: Material(
+      body: _isLoading 
+      ? Center(child: CircularProgressIndicator()) 
+      : Material(
         child: ListView(
           shrinkWrap: true,
           children: <Widget>[
@@ -36,7 +100,7 @@ class CompanionListScreen extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        '23',
+                        '${companionsData.length}',
                         style: TextStyle(
                           color: Colors.black,
                           fontWeight: FontWeight.w400,
@@ -62,7 +126,15 @@ class CompanionListScreen extends StatelessWidget {
                       : EdgeInsets.fromLTRB(0, 5, 10, 5),
                   child: Hero(
                     tag: '$index',
-                    child: CompanionList(),
+                    child: CompanionList(
+                      name: companionsData[index].name,
+                      dob: companionsData[index].dob,
+                      occupation: companionsData[index].occupation,
+                      gender: companionsData[index].gender,
+                      from: companionsData[index].from,
+                      to: companionsData[index].to,
+                      date: companionsData[index].date,
+                    ),
                   ),
                 );
               },
@@ -72,7 +144,7 @@ class CompanionListScreen extends StatelessWidget {
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
               ),
-              itemCount: 10,
+              itemCount: companionsData.length,
             ),
           ],
         ),

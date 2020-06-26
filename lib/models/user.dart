@@ -12,14 +12,14 @@ class User{
   List<String> journeys;
 
   User({
-    @required this.uid,
-    @required this.name,
-    @required this.phoneNumber,
-    @required this.email,
-    @required this.gender,
-    @required this.occupation,
-    @required this.imageUrl,
-    @required this.dob,
+    this.uid,
+    this.name,
+    this.phoneNumber,
+    this.email,
+    this.gender,
+    this.occupation,
+    this.imageUrl,
+    this.dob,
     this.journeys
   });
 }

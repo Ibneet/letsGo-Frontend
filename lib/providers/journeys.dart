@@ -1,14 +1,20 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import './journey.dart';
+import '../models/user.dart';
 import '../models/http_exception.dart';
+import '../providers/companion.dart';
 
 class Journeys with ChangeNotifier {
+  final port = Platform.isIOS ? 'localhost' : '10.0.2.2';
   List<Journey> _items = [];
+
+  List<Companion> _companions = [];
 
   final String _authToken;
 
@@ -16,6 +22,10 @@ class Journeys with ChangeNotifier {
 
   List<Journey> get items {
     return [..._items];
+  }
+
+  List<Companion> get compaions {
+    return [..._companions];
   }
 
   String get authToken {
@@ -45,7 +55,7 @@ class Journeys with ChangeNotifier {
   String id;
 
   Future<void> getActiveJourneys() async {
-    const url = 'http://10.0.2.2:5000/api/journeys/current';
+    var url = 'http://$port:5000/api/journeys/current';
     try{
       final response = await http.get(
         url,
@@ -80,7 +90,7 @@ class Journeys with ChangeNotifier {
   }
 
   Future<void> addJourney(String from, String to, DateTime dateTime) async {
-    const url = 'http://10.0.2.2:5000/api/journeys';
+    var url = 'http://$port:5000/api/journeys';
     try{
       final response = await http.post(
         url, 
@@ -112,6 +122,43 @@ class Journeys with ChangeNotifier {
       notifyListeners();
     }catch(err){
       throw err;
+    }
+  }
+
+  Future<void> getCompanions(String from, String to, DateTime dateTime) async {
+    var url = 'http://$port:5000/api/journeys/$from/$to/${DateFormat.yMMMMd().format(dateTime)}';
+    try{
+      final response = await http.get(
+        url,
+        headers: {
+          'Authorization': 'Bearer $authToken'
+        },
+      );
+      final responseData = json.decode(response.body);
+      print(responseData);
+      if(responseData['message'] != null){
+        _companions = [];
+        throw HttpException(responseData['message']);
+      }
+      final extractedData = responseData['companions'] as List<dynamic>;
+      final List<Companion> companionsData = [];
+      extractedData.forEach((companion) {
+        companionsData.add(Companion(
+          name: companion['companion']['name'],
+          dob: DateTime.parse(companion['companion']['dob']),
+          occupation: companion['companion']['occupation'],
+          gender: companion['companion']['gender'],
+          from: companion['from'],
+          to: companion['to'],
+          date: DateTime.parse(companion['date']),
+        ));
+      });
+      print(companionsData);
+      _companions = companionsData;
+      notifyListeners();
+    }catch(err){
+      print('hi');
+      throw(err);
     }
   }
 }

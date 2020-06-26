@@ -22,7 +22,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> signup(String name, String email, String password) async {
-    const url = 'http://10.0.2.2:5000/api/users/signup';
+    const url = 'http://localhost:5000/api/users/signup';
     try{
       final response = await http.post(
         url,
@@ -53,7 +53,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> login( String email, String password) async {
-    const url = 'http://10.0.2.2:5000/api/users/login';
+    const url = 'http://localhost:5000/api/users/login';
     try{
       final response = await http.post(
         url,
@@ -95,7 +95,7 @@ class Auth with ChangeNotifier{
   }
 
   Future<void> logout() async {
-    const url = 'http://10.0.2.2:5000/api/users/logout';
+    const url = 'http://localhost:5000/api/users/logout';
     try{
       final response = await http.post(
         url,
