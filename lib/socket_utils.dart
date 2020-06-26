@@ -23,23 +23,23 @@ class SocketUtils {
   //Type of chat
   static const String SINGLE_CHAT = 'single_chat';
 
-  User _fromUser;
+  static String _fromUserId;
 
-  SocketIO _socket;
-  SocketIOManager _manager;
+  static SocketIO _socket;
+  static SocketIOManager _manager;
 
-  initSocket(User fromUser) async {
-    this._fromUser = fromUser;
-    print('Connecting... ${fromUser.name}');
+  static initSocket(String fromUserId) async {
+    _fromUserId = fromUserId;
+    print('Connecting... $fromUserId');
     await _init();
   }
 
-  _init() async {
+  static _init() async {
     _manager = SocketIOManager();
     _socket = await _manager.createInstance(_socketOptions());
   }
 
-  connectToSocket() {
+  static connectToSocket() {
     if (_socket == null) {
       print('Socket is null');
       return;
@@ -47,9 +47,9 @@ class SocketUtils {
     _socket.connect();
   }
 
-  _socketOptions() {
+  static _socketOptions() {
     final Map<String, String> userMap = {
-      'from': _fromUser.uid,
+      'from': _fromUserId,
     };
     return SocketOptions(_connectUrl,
         enableLogging: true,
@@ -57,44 +57,44 @@ class SocketUtils {
         query: userMap);
   }
 
-  setOnConnectListener(Function onConnect) {
+  static setOnConnectListener(Function onConnect) {
     _socket.onConnect((data) {
       onConnect(data);
     });
   }
 
-  setOnConnectionTimeOutListener(Function onConnectionTimeout) {
+  static setOnConnectionTimeOutListener(Function onConnectionTimeout) {
     _socket.onConnectTimeout((data) {
       onConnectionTimeout(data);
     });
   }
 
-  setOnConnectionErrorListener(Function onConnectionError) {
+  static setOnConnectionErrorListener(Function onConnectionError) {
     _socket.onConnectError((data) {
       onConnectionError(data);
     });
   }
 
-  setOnErrorListener(Function onError) {
+  static setOnErrorListener(Function onError) {
     _socket.onError((data) {
       onError(data);
     });
   }
 
-  setOnDisconnectListener(Function onDisConnect) {
+  static setOnDisconnectListener(Function onDisConnect) {
     _socket.onDisconnect((data) {
       onDisConnect(data);
     });
   }
 
-  closeConnection() {
+  static closeConnection() {
     if (_socket != null) {
       print('Closing connection');
       _manager.clearInstance(_socket);
     }
   }
 
-  sendSingleChatMessage(ChatMessage chatMessage) {
+  static sendSingleChatMessage(ChatMessage chatMessage) {
     if (_socket == null) {
       print('Cannot send message.');
       return;
@@ -102,7 +102,7 @@ class SocketUtils {
     _socket.emit(EVENT_SINGLE_CHAT_MESSAGE, [chatMessage.toJson()]);
   }
 
-  setOnChatMessageReceiveListener(Function onMessageReceived) {
+  static setOnChatMessageReceiveListener(Function onMessageReceived) {
     if (onMessageReceived == null) {
       return;
     }
@@ -111,7 +111,7 @@ class SocketUtils {
     });
   }
 
-  setOnlineUserStatusListener(Function onUserStatus) {
+  static setOnlineUserStatusListener(Function onUserStatus) {
     if (onUserStatus == null) {
       return;
     }
@@ -120,7 +120,7 @@ class SocketUtils {
     });
   }
 
-  checkOnline(ChatMessage chatMessage) {
+  static checkOnline(ChatMessage chatMessage) {
     print('Checking Online User: ${chatMessage.to}');
     if (_socket == null) {
       print('Cannot Check online.');
