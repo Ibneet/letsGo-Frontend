@@ -11,66 +11,71 @@ class CompanionListScreen extends StatelessWidget {
           title: Text(
         'Ur Matched Companions',
       )),
-      body: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Container(),
-          Card(
-            margin: EdgeInsets.all(10),
-            elevation: 6,
-            color: Colors.pink[50],
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Center(
-              child: Container(
-                padding: EdgeInsets.all(10),
-                child: Column(
-                  children: <Widget>[
-                    Text(
-                      'MATCHED COMPANIONS',
-                      style: TextStyle(
-                        color: Colors.grey[600],
-                        fontSize: 16,
+      body: Material(
+        child: ListView(
+          shrinkWrap: true,
+          children: <Widget>[
+            Container(),
+            Card(
+              margin: EdgeInsets.all(10),
+              elevation: 6,
+              color: Colors.pink[50],
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Center(
+                child: Container(
+                  padding: EdgeInsets.all(10),
+                  child: Column(
+                    children: <Widget>[
+                      Text(
+                        'MATCHED COMPANIONS',
+                        style: TextStyle(
+                          color: Colors.grey[600],
+                          fontSize: 16,
+                        ),
                       ),
-                    ),
-                    Text(
-                      '23',
-                      style: TextStyle(
-                        color: Colors.black,
-                        fontWeight: FontWeight.w400,
-                        fontSize: 30,
+                      Text(
+                        '23',
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.w400,
+                          fontSize: 30,
+                        ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             ),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            primary: false,
-            padding: EdgeInsets.only(
-              top: 5,
-              bottom: 15,
+            GridView.builder(
+              shrinkWrap: true,
+              primary: false,
+              padding: EdgeInsets.only(
+                top: 5,
+                bottom: 15,
+              ),
+              itemBuilder: (ctx, index) {
+                return Padding(
+                  padding: index.isEven
+                      ? EdgeInsets.fromLTRB(10, 5, 5, 5)
+                      : EdgeInsets.fromLTRB(0, 5, 10, 5),
+                  child: Hero(
+                    tag: '$index',
+                    child: CompanionList(),
+                  ),
+                );
+              },
+              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 3 / 4,
+                crossAxisSpacing: 10,
+                mainAxisSpacing: 10,
+              ),
+              itemCount: 10,
             ),
-            itemBuilder: (ctx, index) {
-              return Padding(
-                padding: index.isEven
-                    ? EdgeInsets.fromLTRB(10, 5, 5, 5)
-                    : EdgeInsets.fromLTRB(0, 5, 10, 5),
-                child: CompanionList(),
-              );
-            },
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 3 / 4,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-            ),
-            itemCount: 10,
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
