@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/widgets.dart';
+import 'package:frontend/models/chat_message.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -12,8 +13,13 @@ class Auth with ChangeNotifier {
   String _token;
   String _userId;
 
+  List<ChatMessage> _chats = [];
   bool get isAuth {
     return token != null;
+  }
+
+  List<ChatMessage> get chats {
+    return [..._chats];
   }
 
   String get token {
@@ -30,6 +36,7 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  String _idchat;
   Future<void> addUserChat(String to) async {
     var url = 'http://$port:5000/api/chatuser';
     try {
@@ -44,7 +51,8 @@ class Auth with ChangeNotifier {
         throw HttpException(responseData['message']);
       }
       print(responseData);
-
+      _idchat = responseData['userchat']['chatID'];
+      print(_idchat);
       notifyListeners();
     } catch (err) {
       throw err;
@@ -132,6 +140,41 @@ class Auth with ChangeNotifier {
       prefs.clear();
     } catch (err) {
       throw err;
+    }
+  }
+
+  Future<void> getHistoryChats(String idchat) async {
+    var url = 'http://$port:5000/api/chats/$idchat';
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $_token'},
+      );
+      
+      print('IdChat: $idchat');
+      final responseData = json.decode(response.body);
+      print('getChats $responseData');
+      if (responseData['message'] != null) {
+        _chats = [];
+        throw HttpException(responseData['message']);
+      }
+      final extractedData = responseData['chat'] as List<dynamic>;
+      final List<ChatMessage> chatData = [];
+      extractedData.forEach((chat) {
+        chatData.add(ChatMessage(
+          chatId: chat['chatID'],
+          from: chat['from'],
+          to: chat['to'],
+          message: chat['message'],
+          chatType: chat['chatType'],
+          toUserOnlineStatus: chat['toUserOnlineStatus'],
+        ));
+      });
+      _chats = chatData;
+      // print(responseData['journey']);
+      notifyListeners();
+    } catch (err) {
+      throw (err);
     }
   }
 }

@@ -16,7 +16,7 @@ class ChatScreen extends StatefulWidget {
 }
 
 class _ChatUserScreenState extends State<ChatScreen> {
-  List<ChatMessage> _chatMessages;
+  List<ChatMessage> _chatMessages = [];
   String _toChatUserId;
   String _toChatUserName;
   UserOnlineStatus _userOnlineStatus;
@@ -47,6 +47,18 @@ class _ChatUserScreenState extends State<ChatScreen> {
         final errMess = err.toString();
         print(errMess);
       });
+      _uid = Provider.of<Auth>(context).uid;
+      String idChat = _uid.compareTo(toId) == -1 ? _uid + toId : toId + _uid;
+      Provider.of<Auth>(context)
+          .getHistoryChats(idChat)
+          .then((_) => print('History chats added'))
+          .catchError((err) {
+        final errMess = err.toString();
+        print(errMess);
+      });
+
+      // Provider.of<Auth>(context).chats;
+      // print(_chatMessages.length);
       _toChatUserId = toId;
       _toChatUserName = name;
       _chatTextController = TextEditingController();
@@ -123,6 +135,8 @@ class _ChatUserScreenState extends State<ChatScreen> {
 
   @override
   Widget build(BuildContext context) {
+    var chats = Provider.of<Auth>(context);
+    _chatMessages = _chatMessages.isEmpty ? chats.chats : _chatMessages;
     return Scaffold(
       appBar: AppBar(
         title: ChatTitle(
@@ -138,10 +152,13 @@ class _ChatUserScreenState extends State<ChatScreen> {
             Expanded(
               child: ListView.builder(
                   controller: _chatListController,
-                  itemCount: _chatMessages==null || _chatMessages.length ==0? 0:_chatMessages.length,
+                  itemCount: _chatMessages == null || _chatMessages.length == 0
+                      ? 0
+                      : _chatMessages.length,
                   itemBuilder: (context, index) {
                     ChatMessage chatMessage = _chatMessages[index];
-                    bool fromMe = chatMessage.isFromMe;
+                    bool fromMe = chatMessage.from == _uid;
+                    print('chatMessage.message: ${chatMessage.message}');
                     return Container(
                         padding: EdgeInsets.all(20),
                         margin: EdgeInsets.all(10),
@@ -189,8 +206,8 @@ class _ChatUserScreenState extends State<ChatScreen> {
         message: _chatTextController.text,
         chatType: SocketUtils.SINGLE_CHAT,
         isFromMe: true);
-    processMessage(chatMessage);
     SocketUtils.sendSingleChatMessage(chatMessage);
+    processMessage(chatMessage);
     _chatListScrollToBottom();
   }
 

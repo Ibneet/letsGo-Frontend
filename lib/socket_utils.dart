@@ -95,6 +95,7 @@ class SocketUtils {
   }
 
   static sendSingleChatMessage(ChatMessage chatMessage) {
+    print('in send ${chatMessage.message}');
     if (_socket == null) {
       print('Cannot send message.');
       return;
