@@ -30,6 +30,27 @@ class Auth with ChangeNotifier {
     return null;
   }
 
+  Future<void> addUserChat(String to) async {
+    var url = 'http://$port:5000/api/chatuser';
+    try {
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $_token'
+          },
+          body: json.encode({"from": _userId, "to": to}));
+      final responseData = json.decode(response.body);
+      if (responseData['message'] != null) {
+        throw HttpException(responseData['message']);
+      }
+      print(responseData);
+
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
+  }
+
   Future<void> signup(String name, String email, String password) async {
     final url = 'http://$port:5000/api/users/signup';
     try {

@@ -26,8 +26,8 @@ class _ChatUserScreenState extends State<ChatScreen> {
   ScrollController _chatListController;
 
   @override
-  void setState(fn){
-    if(mounted){
+  void setState(fn) {
+    if (mounted) {
       super.setState((fn));
     }
   }
@@ -39,10 +39,14 @@ class _ChatUserScreenState extends State<ChatScreen> {
     if (_isInit) {
       final routeArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
-      final toId = routeArgs['toId'];
+      final String toId = routeArgs['toId'];
       final name = routeArgs['name'];
-      _uid = Provider.of<Auth>(context).uid;
-      _chatMessages = List();
+      Provider.of<Auth>(context).addUserChat(toId).then((_) {
+        print('userchat added');
+      }).catchError((err) {
+        final errMess = err.toString();
+        print(errMess);
+      });
       _toChatUserId = toId;
       _toChatUserName = name;
       _chatTextController = TextEditingController();
@@ -61,15 +65,14 @@ class _ChatUserScreenState extends State<ChatScreen> {
     super.dispose();
   }
 
-  _checkOnline(){
+  _checkOnline() {
     ChatMessage chatMessage = ChatMessage(
-      chatId: null,
-      from: _uid,
-      to: _toChatUserId,
-      toUserOnlineStatus: false,
-      message: '',
-      chatType: SocketUtils.SINGLE_CHAT
-    );
+        chatId: null,
+        from: _uid,
+        to: _toChatUserId,
+        toUserOnlineStatus: false,
+        message: '',
+        chatType: SocketUtils.SINGLE_CHAT);
     SocketUtils.checkOnline(chatMessage);
   }
 
@@ -87,9 +90,9 @@ class _ChatUserScreenState extends State<ChatScreen> {
     print('onUserStatus $data');
     ChatMessage chatMessage = ChatMessage.fromJson(data);
     setState(() {
-      _userOnlineStatus = chatMessage.toUserOnlineStatus 
-        ? UserOnlineStatus.online 
-        : UserOnlineStatus.offline;
+      _userOnlineStatus = chatMessage.toUserOnlineStatus
+          ? UserOnlineStatus.online
+          : UserOnlineStatus.offline;
     });
   }
 
@@ -108,17 +111,14 @@ class _ChatUserScreenState extends State<ChatScreen> {
   }
 
   _chatListScrollToBottom() {
-    Timer(
-      Duration(milliseconds: 100), (){
-        if(_chatListController.hasClients){
-          _chatListController.animateTo(
-            _chatListController.position.maxScrollExtent, 
-            duration: Duration(milliseconds: 100), 
-            curve: Curves.decelerate
-          );
-        }
+    Timer(Duration(milliseconds: 100), () {
+      if (_chatListController.hasClients) {
+        _chatListController.animateTo(
+            _chatListController.position.maxScrollExtent,
+            duration: Duration(milliseconds: 100),
+            curve: Curves.decelerate);
       }
-    );
+    });
   }
 
   @override
@@ -137,21 +137,20 @@ class _ChatUserScreenState extends State<ChatScreen> {
           children: <Widget>[
             Expanded(
               child: ListView.builder(
-                controller: _chatListController,
-                itemCount: _chatMessages.length,
-                itemBuilder: (context, index){
-                  ChatMessage chatMessage = _chatMessages[index];
-                  bool fromMe = chatMessage.isFromMe;
-                  return Container(
-                    padding: EdgeInsets.all(20),
-                    margin: EdgeInsets.all(10),
-                    alignment: 
-                      fromMe ? Alignment.centerRight : Alignment.centerLeft,
-                    color: fromMe ? Colors.green : Colors.grey,
-                    child: Text(chatMessage.message)
-                  );
-                }
-              ),
+                  controller: _chatListController,
+                  itemCount: _chatMessages==null || _chatMessages.length ==0? 0:_chatMessages.length,
+                  itemBuilder: (context, index) {
+                    ChatMessage chatMessage = _chatMessages[index];
+                    bool fromMe = chatMessage.isFromMe;
+                    return Container(
+                        padding: EdgeInsets.all(20),
+                        margin: EdgeInsets.all(10),
+                        alignment: fromMe
+                            ? Alignment.centerRight
+                            : Alignment.centerLeft,
+                        color: fromMe ? Colors.green : Colors.grey,
+                        child: Text(chatMessage.message));
+                  }),
             ),
             _bottomChatArea()
           ],
@@ -159,7 +158,6 @@ class _ChatUserScreenState extends State<ChatScreen> {
       ),
     );
   }
-
 
   _bottomChatArea() {
     return Container(
@@ -180,18 +178,17 @@ class _ChatUserScreenState extends State<ChatScreen> {
 
   _sendMessageBtnTap() async {
     print('$_toChatUserName');
-    if(_chatTextController.text.isEmpty){
+    if (_chatTextController.text.isEmpty) {
       return;
     }
     ChatMessage chatMessage = ChatMessage(
-      chatId: null,
-      from: _uid,
-      to: _toChatUserId,
-      toUserOnlineStatus: false,
-      message: _chatTextController.text,
-      chatType: SocketUtils.SINGLE_CHAT, 
-      isFromMe: true
-    );
+        chatId: null,
+        from: _uid,
+        to: _toChatUserId,
+        toUserOnlineStatus: false,
+        message: _chatTextController.text,
+        chatType: SocketUtils.SINGLE_CHAT,
+        isFromMe: true);
     processMessage(chatMessage);
     SocketUtils.sendSingleChatMessage(chatMessage);
     _chatListScrollToBottom();
@@ -202,20 +199,15 @@ class _ChatUserScreenState extends State<ChatScreen> {
       child: TextField(
         controller: _chatTextController,
         decoration: InputDecoration(
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10)
-          ),
-          filled: true,
-          fillColor: Colors.white,
-          contentPadding: EdgeInsets.all(10),
-          hintText: 'Type message'
-        ),
+            enabledBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            focusedBorder:
+                OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
+            filled: true,
+            fillColor: Colors.white,
+            contentPadding: EdgeInsets.all(10),
+            hintText: 'Type message'),
       ),
     );
   }
 }
-
-
