@@ -8,6 +8,7 @@ import '../../screens/companion_list/companion_detail_screen.dart';
 import '../../socket_utils.dart';
 
 class CompanionList extends StatefulWidget {
+  final String toId;
   final String name;
   final DateTime dob;
   final String occupation;
@@ -17,7 +18,8 @@ class CompanionList extends StatefulWidget {
   final DateTime date;
 
   CompanionList(
-      {this.name,
+      {this.toId,
+      this.name,
       this.dob,
       this.occupation,
       this.gender,
@@ -169,7 +171,11 @@ class _CompanionListState extends State<CompanionList> {
                 child: Material(
                   child: InkWell(
                     onTap: () {
-                      Navigator.of(context).pushNamed(ChatScreen.routeName);
+                      Navigator.of(context)
+                          .pushNamed(ChatScreen.routeName, arguments: {
+                        'toId': widget.toId,
+                        'name': widget.name,
+                      });
                     },
                     child: Container(
                       width: double.infinity,

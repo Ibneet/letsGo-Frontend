@@ -33,39 +33,33 @@ class Journeys with ChangeNotifier {
   }
 
   List<Journey> get historyJourneys {
-    return _items.where(
-      (journey) => journey.withWhom!=null
-    ).toList();
+    return _items.where((journey) => journey.withWhom != null).toList();
   }
 
   int get countHistJourneys {
-    List<Journey> histJourneys = _items.where(
-      (journey) => journey.withWhom==null
-    ).toList();
-    return (historyJourneys==null)? 0: histJourneys.length;
+    List<Journey> histJourneys =
+        _items.where((journey) => journey.withWhom == null).toList();
+    return (historyJourneys == null) ? 0 : histJourneys.length;
   }
 
   int get countCurrJourneys {
-    List<Journey> currJourneys = _items.where(
-      (journey) => journey.withWhom!=null
-    ).toList();
-    return (currJourneys==null)? 0: currJourneys.length;
+    List<Journey> currJourneys =
+        _items.where((journey) => journey.withWhom != null).toList();
+    return (currJourneys == null) ? 0 : currJourneys.length;
   }
 
   String id;
 
   Future<void> getActiveJourneys() async {
     var url = 'http://$port:5000/api/journeys/current';
-    try{
+    try {
       final response = await http.get(
         url,
-        headers: {
-          'Authorization': 'Bearer $authToken'
-        },
+        headers: {'Authorization': 'Bearer $authToken'},
       );
       final responseData = json.decode(response.body);
       print(responseData);
-      if(responseData['message'] != null){
+      if (responseData['message'] != null) {
         _items = [];
         throw HttpException(responseData['message']);
       }
@@ -73,70 +67,65 @@ class Journeys with ChangeNotifier {
       final List<Journey> journeyData = [];
       extractedData.forEach((journey) {
         journeyData.add(Journey(
-          jid: journey['_id'],
-          from: journey['from'],
-          to: journey['to'],
-          date: DateTime.parse(journey['date']),
-          // creator: journey['creator'],
-          withWhom: journey['withWhom']
-        ));
+            jid: journey['_id'],
+            from: journey['from'],
+            to: journey['to'],
+            date: DateTime.parse(journey['date']),
+            // creator: journey['creator'],
+            withWhom: journey['withWhom']));
       });
       _items = journeyData;
       // print(responseData['journey']);
       notifyListeners();
-    }catch(err){
-      throw(err);
+    } catch (err) {
+      throw (err);
     }
   }
 
   Future<void> addJourney(String from, String to, DateTime dateTime) async {
     var url = 'http://$port:5000/api/journeys';
-    try{
-      final response = await http.post(
-        url, 
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': 'Bearer $authToken'
-        },
-        body: json.encode({
-          "from": from,
-          "to": to,
-          "date": DateFormat.yMMMMd().format(dateTime)
-        })
-      );
+    try {
+      final response = await http.post(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $authToken'
+          },
+          body: json.encode({
+            "from": from,
+            "to": to,
+            "date": DateFormat.yMMMMd().format(dateTime)
+          }));
       final responseData = json.decode(response.body);
-      if(responseData['message'] != null){
+      if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       }
       print(responseData);
       final newJourney = Journey(
-        jid: responseData['journey']['_id'],
-        // creator: responseData['journey']['creator'],
-        from: from,
-        to: to,
-        date: dateTime,
-        withWhom: null
-      );
+          jid: responseData['journey']['_id'],
+          // creator: responseData['journey']['creator'],
+          from: from,
+          to: to,
+          date: dateTime,
+          withWhom: null);
       _items.add(newJourney);
       id = responseData['journey']['creator'];
       notifyListeners();
-    }catch(err){
+    } catch (err) {
       throw err;
     }
   }
 
   Future<void> getCompanions(String from, String to, DateTime dateTime) async {
-    var url = 'http://$port:5000/api/journeys/$from/$to/${DateFormat.yMMMMd().format(dateTime)}';
-    try{
+    var url =
+        'http://$port:5000/api/journeys/$from/$to/${DateFormat.yMMMMd().format(dateTime)}';
+    try {
       final response = await http.get(
         url,
-        headers: {
-          'Authorization': 'Bearer $authToken'
-        },
+        headers: {'Authorization': 'Bearer $authToken'},
       );
       final responseData = json.decode(response.body);
       print(responseData);
-      if(responseData['message'] != null){
+      if (responseData['message'] != null) {
         _companions = [];
         throw HttpException(responseData['message']);
       }
@@ -144,6 +133,7 @@ class Journeys with ChangeNotifier {
       final List<Companion> companionsData = [];
       extractedData.forEach((companion) {
         companionsData.add(Companion(
+          toId: companion['companion']['_id'],
           name: companion['companion']['name'],
           dob: DateTime.parse(companion['companion']['dob']),
           occupation: companion['companion']['occupation'],
@@ -156,9 +146,9 @@ class Journeys with ChangeNotifier {
       print(companionsData);
       _companions = companionsData;
       notifyListeners();
-    }catch(err){
+    } catch (err) {
       print('hi');
-      throw(err);
+      throw (err);
     }
   }
 }
