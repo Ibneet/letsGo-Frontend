@@ -83,6 +83,7 @@ class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
               children: journeysData.map(
                 (journey) {
                   return JourneyItem(
+                    journeyId: journey.jid,
                     journeyDate: journey.date,
                     journeyDestination: journey.to,
                     journeySource: journey.from,

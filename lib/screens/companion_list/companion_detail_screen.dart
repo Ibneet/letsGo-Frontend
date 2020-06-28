@@ -1,13 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
 
 import '../../screens/chat/chat_screen.dart';
+import '../../providers/journeys.dart';
+import '../../models/http_exception.dart';
 
-class CompanionDetailScreen extends StatelessWidget {
+class CompanionDetailScreen extends StatefulWidget {
   static const routeName = '/companion-detail';
+
+  @override
+  _CompanionDetailScreenState createState() => _CompanionDetailScreenState();
+}
+
+class _CompanionDetailScreenState extends State<CompanionDetailScreen> {
+  var _isLoading = false;
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
+  }
+
+  Future<void> _foundCompanion(String jid, String toId) async {
+    print('jid: $jid, toId: $toId');
+    setState(() {
+      _isLoading = true;
+    });
+    try{
+      await Provider.of<Journeys>(context, listen: false).foundCompanion(
+        jid,
+        toId
+      );
+    }on HttpException catch(err){
+      final errMess = err.toString();
+      _showErrorDialog(errMess);
+    }catch(err){
+      const errMess = 'Could not add the journey, please try again later.';
+      _showErrorDialog(errMess);
+    }
+    setState(() {
+      _isLoading = false;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final routeArgs = ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+    final jid = routeArgs['jid'];
+    final toId = routeArgs['toId'];
     final name = routeArgs['name'];
     final source = routeArgs['from'];
     final destination = routeArgs['to'];
@@ -145,7 +198,9 @@ class CompanionDetailScreen extends StatelessWidget {
                                       0.0,
                                     ),
                                     child: InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        _foundCompanion(jid, toId);
+                                      },
                                       child: Material(
                                         borderRadius:
                                             BorderRadius.circular(20.0),
@@ -158,7 +213,9 @@ class CompanionDetailScreen extends StatelessWidget {
                                             ),
                                           ),
                                           padding: const EdgeInsets.all(15.0),
-                                          child: Text(
+                                          child: _isLoading 
+                                          ? Center(child:CircularProgressIndicator())
+                                          : Text(
                                             'ACCEPT',
                                             textAlign: TextAlign.center,
                                             style: TextStyle(

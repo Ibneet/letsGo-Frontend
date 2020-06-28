@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 class Companion with ChangeNotifier {
+  final String jid;
   final String toId;
   final String name;
   final String from;
@@ -11,6 +12,7 @@ class Companion with ChangeNotifier {
   final String occupation;
 
   Companion({
+    this.jid,
     @required this.toId,
     @required this.name,
     @required this.from,

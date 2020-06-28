@@ -8,6 +8,7 @@ import '../../screens/companion_list/companion_detail_screen.dart';
 import '../../socket_utils.dart';
 
 class CompanionList extends StatefulWidget {
+  final String jid;
   final String toId;
   final String name;
   final DateTime dob;
@@ -18,6 +19,7 @@ class CompanionList extends StatefulWidget {
   final DateTime date;
 
   CompanionList({
+    this.jid,
     this.toId,
     this.name,
     this.dob,
@@ -48,7 +50,7 @@ class _CompanionListState extends State<CompanionList> {
     }
     _isInit = false;
   }
-
+  
   _connectToSocket(uid) async {
     print('Connecting logged in user $uid');
     await SocketUtils.initSocket(uid);
@@ -111,6 +113,8 @@ class _CompanionListState extends State<CompanionList> {
         onTap: () {
           Navigator.of(context).pushNamed(CompanionDetailScreen.routeName,
               arguments: {
+                'jid': widget.jid,
+                'toId': widget.toId,
                 'name': widget.name,
                 'from': widget.from,
                 'to': widget.to,

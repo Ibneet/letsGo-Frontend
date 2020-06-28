@@ -14,6 +14,7 @@ class CompanionListScreen extends StatefulWidget {
 class _CompanionListScreenState extends State<CompanionListScreen> {
   var _isInit = true;
   var _isLoading = false;
+  var _jid;
 
   @override
   void didChangeDependencies() {
@@ -23,6 +24,7 @@ class _CompanionListScreenState extends State<CompanionListScreen> {
       });
       final routeArgs =
           ModalRoute.of(context).settings.arguments as Map<String, dynamic>;
+      _jid = routeArgs['jid'];
       final from = routeArgs['from'];
       final to = routeArgs['to'];
       final date = routeArgs['date'];
@@ -123,6 +125,7 @@ class _CompanionListScreenState extends State<CompanionListScreen> {
                         child: Hero(
                           tag: '$index',
                           child: CompanionList(
+                            jid: _jid,
                             toId: companionsData[index].toId,
                             name: companionsData[index].name,
                             dob: companionsData[index].dob,

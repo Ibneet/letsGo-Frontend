@@ -150,4 +150,23 @@ class Journeys with ChangeNotifier {
       throw (err);
     }
   }
+
+  Future<void> foundCompanion(String jid, String toId) async {
+    var url = 'http://$port:5000/api/journeys/$jid/$toId';
+    try {
+      final response = await http.patch(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $authToken'
+          });
+      final responseData = json.decode(response.body);
+      if (responseData['message'] != null) {
+        throw HttpException(responseData['message']);
+      }
+      print(responseData);
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
+  }
 }

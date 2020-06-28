@@ -4,12 +4,14 @@ import 'package:intl/intl.dart';
 import '../../screens/companion_list/companion_list_screen.dart';
 
 class JourneyItem extends StatelessWidget {
+  final String journeyId;
   final String journeySource;
   final String journeyDestination;
   final DateTime journeyDate;
   final String journeyWith;
 
   JourneyItem({
+    this.journeyId,
     this.journeyDate,
     this.journeyDestination,
     this.journeySource,
@@ -17,6 +19,8 @@ class JourneyItem extends StatelessWidget {
   });
   @override
   Widget build(BuildContext context) {
+
+    print('journeyId: $journeyId');
     return Card(
       margin: EdgeInsets.fromLTRB(20, 10, 20, 10),
       shape: RoundedRectangleBorder(
@@ -30,6 +34,7 @@ class JourneyItem extends StatelessWidget {
           Navigator.of(context).pushNamed(
             CompanionListScreen.routeName,
             arguments: {
+              'jid': journeyId,
               'from': journeySource,
               'to': journeyDestination,
               'date': journeyDate
