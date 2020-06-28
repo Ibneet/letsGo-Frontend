@@ -3,7 +3,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
 import '../screens/active_journeys/active_journeys_screen.dart';
 import '../screens/history_journeys/history_journeys_screen.dart';
-import '../screens/chat/chat_screen.dart';
+import '../screens/chat/chat_user_screen.dart';
 import '../screens/user_profile/user_profile_screen.dart';
 
 class TabsScreen extends StatefulWidget {
@@ -16,7 +16,7 @@ class _TabsScreenState extends State<TabsScreen> {
   final List<Widget> _screens = [
     ActiveJourneysScreen(),
     HistoryJourneysScreen(),
-    ChatScreen(),
+    ChatUserScreen(),
     UserProfileScreen()
   ];
   int _selectedScreenIndex = 0;

@@ -6,7 +6,6 @@ import 'package:http/http.dart' as http;
 import 'package:intl/intl.dart';
 
 import './journey.dart';
-import '../models/user.dart';
 import '../models/http_exception.dart';
 import '../providers/companion.dart';
 

@@ -17,15 +17,16 @@ class CompanionList extends StatefulWidget {
   final String to;
   final DateTime date;
 
-  CompanionList(
-      {this.toId,
-      this.name,
-      this.dob,
-      this.occupation,
-      this.gender,
-      this.from,
-      this.to,
-      this.date});
+  CompanionList({
+    this.toId,
+    this.name,
+    this.dob,
+    this.occupation,
+    this.gender,
+    this.from,
+    this.to,
+    this.date
+  });
 
   @override
   _CompanionListState createState() => _CompanionListState();

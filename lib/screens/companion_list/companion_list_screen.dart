@@ -44,19 +44,20 @@ class _CompanionListScreenState extends State<CompanionListScreen> {
 
   void _showErrorDialog(String message) {
     showDialog(
-        context: context,
-        builder: (ctx) => AlertDialog(
-              // title: Text('An Error Occurred!'),
-              content: Text(message),
-              actions: <Widget>[
-                FlatButton(
-                  child: Text('OK'),
-                  onPressed: () {
-                    Navigator.of(ctx).pop();
-                  },
-                )
-              ],
-            ));
+      context: context,
+      builder: (ctx) => AlertDialog(
+        // title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          )
+        ],
+      )
+    );
   }
 
   @override

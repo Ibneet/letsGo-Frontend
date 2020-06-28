@@ -7,19 +7,27 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/http_exception.dart';
+import '../models/user.dart';
 
 class Auth with ChangeNotifier {
   final port = Platform.isIOS ? 'localhost' : '10.0.2.2';
   String _token;
   String _userId;
 
+  List<User> _chatUsers = [];
+
   List<ChatMessage> _chats = [];
+
   bool get isAuth {
     return token != null;
   }
 
   List<ChatMessage> get chats {
     return [..._chats];
+  }
+
+  List<User> get chatUsers {
+    return [..._chatUsers];
   }
 
   String get token {
@@ -174,6 +182,38 @@ class Auth with ChangeNotifier {
       // print(responseData['journey']);
       notifyListeners();
     } catch (err) {
+      throw (err);
+    }
+  }
+
+  Future<void> getChatUsers() async {
+    var url =
+        'http://$port:5000/api/chatuser/userChats';
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $_token'},
+      );
+      final responseData = json.decode(response.body);
+      print(responseData);
+      if (responseData['message'] != null) {
+        _chatUsers = [];
+        throw HttpException(responseData['message']);
+      }
+      final extractedData = responseData['chatUsers'] as List<dynamic>;
+      final List<User> chatUsersData = [];
+      extractedData.forEach((chatUser) {
+        chatUsersData.add(User(
+          uid: chatUser['_id'],
+          name: chatUser['name'],
+          imageUrl: chatUser['image']
+        ));
+      });
+      print(chatUsersData);
+      _chatUsers = chatUsersData;
+      notifyListeners();
+    } catch (err) {
+      print('hi');
       throw (err);
     }
   }
