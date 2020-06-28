@@ -15,6 +15,8 @@ class Journeys with ChangeNotifier {
 
   List<Companion> _companions = [];
 
+  List<Companion> _historyJourneys = [];
+
   final String _authToken;
 
   Journeys(this._authToken, this._items);
@@ -31,8 +33,8 @@ class Journeys with ChangeNotifier {
     return _authToken;
   }
 
-  List<Journey> get historyJourneys {
-    return _items.where((journey) => journey.withWhom != null).toList();
+  List<Companion> get historyJourneys {
+    return [..._historyJourneys];
   }
 
   int get countHistJourneys {
@@ -74,6 +76,37 @@ class Journeys with ChangeNotifier {
             withWhom: journey['withWhom']));
       });
       _items = journeyData;
+      // print(responseData['journey']);
+      notifyListeners();
+    } catch (err) {
+      throw (err);
+    }
+  }
+
+  Future<void> getHistoryJourneys() async {
+    var url = 'http://$port:5000/api/journeys/history';
+    try {
+      final response = await http.get(
+        url,
+        headers: {'Authorization': 'Bearer $authToken'},
+      );
+      final responseData = json.decode(response.body);
+      print(responseData);
+      if (responseData['message'] != null) {
+        _historyJourneys = [];
+        throw HttpException(responseData['message']);
+      }
+      final extractedData = responseData['journeys'] as List<dynamic>;
+      final List<Companion> journeyData = [];
+      extractedData.forEach((journey) {
+        journeyData.add(Companion(
+            jid: journey['jid'],
+            from: journey['from'],
+            to: journey['to'],
+            date: DateTime.parse(journey['date']),
+            name: journey['j']['name']));
+      });
+      _historyJourneys = journeyData;
       // print(responseData['journey']);
       notifyListeners();
     } catch (err) {

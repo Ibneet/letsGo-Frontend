@@ -16,16 +16,67 @@ class _HistoryJourneysScreenState extends State<HistoryJourneysScreen> {
     viewportFraction: 0.8,
   );
   int _currentPage = 0;
-  void initState() {
-    _controller.addListener(() {
-      int next = _controller.page.round();
-      if (_currentPage != next) {
+  // void initState() {
+  //   _controller.addListener(() {
+  //     int next = _controller.page.round();
+  //     if (_currentPage != next) {
+  //       setState(() {
+  //         _currentPage = next;
+  //       });
+  //     }
+  //   });
+  //   super.initState();
+  // }
+
+  var _isInit = true;
+  var _isLoading = false;
+
+  @override
+  void didChangeDependencies() {
+    if(_isInit){
+      setState(() {
+        _isLoading = true;
+      });
+      _controller.addListener(() {
+        int next = _controller.page.round();
+        if (_currentPage != next) {
+          setState(() {
+            _currentPage = next;
+          });
+        }
+      });
+      Provider.of<Journeys>(context).getHistoryJourneys().then((_){
         setState(() {
-          _currentPage = next;
+          _isLoading = false;
         });
-      }
-    });
-    super.initState();
+      }).catchError((err){
+        final errMess = err.toString();
+        _showErrorDialog(errMess);
+        setState(() {
+          _isLoading = false;
+        });
+      });
+    }
+    _isInit = false;
+    super.didChangeDependencies();
+  }
+
+  void _showErrorDialog(String message){
+    showDialog(
+      context: context,
+      builder:(ctx) => AlertDialog(
+        // title: Text('An Error Occurred!'),
+        content: Text(message),
+        actions: <Widget>[
+          FlatButton(
+            child: Text('OK'),
+            onPressed: (){
+              Navigator.of(ctx).pop();
+            }, 
+          )
+        ],
+      )
+    );
   }
 
   @override
@@ -38,20 +89,22 @@ class _HistoryJourneysScreenState extends State<HistoryJourneysScreen> {
         appBar: AppBar(
           title: Text('History Journeys'),
         ),
-        body: (_journeys.length == 0)
+        body: _isLoading 
+        ? Center(child:CircularProgressIndicator())
+        : (_journeys.length == 0)
             ? Center(
                 child: Text('No journey completed yet!'),
               )
             : PageView.builder(
                 itemBuilder: (context, index) {
                   bool active = index == _currentPage;
-
+                  
                   return HistoryCard(
                       _journeys[index].jid,
                       _journeys[index].from,
                       _journeys[index].to,
                       _journeys[index].date,
-                      _journeys[index].withWhom,
+                      _journeys[index].name,
                       active);
                 },
                 scrollDirection: Axis.horizontal,

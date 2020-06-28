@@ -19,13 +19,7 @@ class HistoryCard extends StatelessWidget {
     final double offset = active ? 20 : 0;
     final double top = active ? 100 : 200;
     final double bottom = active ? 60 : 100;
-
-    final imageUrl = dummyUsers.singleWhere((user) {
-      if (user.uid == withWhom) {
-        return true;
-      }
-      return false;
-    });
+    final imageUrl = 'https://pm1.narvii.com/6707/89127fd49ab28bed5009b4a0dee5d08fcd26bd4b_hq.jpg';
     // final imageUrl =
     //     'https://images.pexels.com/photos/774909/pexels-photo-774909.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500';
 
@@ -44,7 +38,7 @@ class HistoryCard extends StatelessWidget {
         image: DecorationImage(
           image: NetworkImage(
             // imageUrl,
-            imageUrl.imageUrl,
+            imageUrl,
           ),
           fit: BoxFit.cover,
         ),
@@ -74,6 +68,15 @@ class HistoryCard extends StatelessWidget {
                 children: <Widget>[
                   Center(
                     child: Text(
+                      '$withWhom',
+                      style: TextStyle(
+                        fontSize: 20,
+                        color: Colors.white,
+                      ),
+                    ),
+                  ),
+                  Center(
+                    child: Text(
                       DateFormat.yMMMd().format(date),
                       style: TextStyle(
                         fontSize: 14,
@@ -91,7 +94,7 @@ class HistoryCard extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: <Widget>[
                             Text(
-                              '$to',
+                              '$from',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,
@@ -103,7 +106,7 @@ class HistoryCard extends StatelessWidget {
                               height: 5,
                             ),
                             Text(
-                              '$from',
+                              '$to',
                               style: TextStyle(
                                 color: Colors.white,
                                 fontSize: 18,

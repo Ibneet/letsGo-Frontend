@@ -13,13 +13,13 @@ class Companion with ChangeNotifier {
 
   Companion({
     this.jid,
-    @required this.toId,
-    @required this.name,
-    @required this.from,
-    @required this.to,
-    @required this.date,
-    @required this.dob,
-    @required this.gender,
-    @required this.occupation,
+    this.toId,
+    this.name,
+    this.from,
+    this.to,
+    this.date,
+    this.dob,
+    this.gender,
+    this.occupation,
   });
 }
