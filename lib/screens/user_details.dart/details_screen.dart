@@ -17,8 +17,20 @@ class _DetailsScreenState extends State<DetailsScreen> {
   String _occupation;
 
   TextEditingController _dobController = new TextEditingController();
+  final TextEditingController _phoneNumberController = TextEditingController();
   final _form = GlobalKey<FormState>();
   var _isLoading = false;
+
+  bool isValid = false;
+
+  Future<Null> validate(StateSetter updateState) async {
+    print("in validate : ${_phoneNumberController.text.length}");
+    if (_phoneNumberController.text.length == 10) {
+      updateState(() {
+        isValid = true;
+      });
+    }
+  }
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -49,6 +61,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
   @override
   void dispose() {
     _dobController.dispose();
+    _phoneNumberController.dispose();
     super.dispose();
   }
 
@@ -122,22 +135,61 @@ class _DetailsScreenState extends State<DetailsScreen> {
                     child: SingleChildScrollView(
                       child: Column(
                         children: <Widget>[
-                          TextFormField(
-                            initialValue: _phoneNumber,
-                            decoration:
-                                InputDecoration(labelText: 'Phone number'),
-                            textInputAction: TextInputAction.done,
-                            keyboardType: TextInputType.number,
-                            validator: (value) {
-                              if (value.isEmpty) {
-                                return 'Please enter a phone number';
-                              }
-                              return null;
-                            },
-                            onSaved: (value) {
-                              _phoneNumber = value;
+                          StatefulBuilder(
+                            builder: (BuildContext context, StateSetter state) {
+                              return Padding(
+                                padding: EdgeInsets.only(bottom: 0),
+                                child: TextFormField(
+                                  // initialValue: _phoneNumber,
+                                  keyboardType: TextInputType.number,
+                                  controller: _phoneNumberController,
+                                  autofocus: true,
+                                  onChanged: (text) {
+                                    validate(state);
+                                  },
+                                  decoration: InputDecoration(
+                                    labelText: "10 digit mobile number",
+                                    prefix: Container(
+                                      padding: EdgeInsets.all(4.0),
+                                      child: Text(
+                                        "+91",
+                                        style: TextStyle(
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                      ),
+                                    ),
+                                  ),
+                                  autovalidate: true,
+                                  autocorrect: false,
+                                  maxLengthEnforced: true,
+                                  validator: (value) {
+                                    return !isValid
+                                        ? 'Please provide a valid 10 digit phone number'
+                                        : null;
+                                  },
+                                  onSaved: (value) {
+                                    _phoneNumber = value;
+                                  },
+                                ),
+                              );
                             },
                           ),
+                          // TextFormField(
+                          //   initialValue: _phoneNumber,
+                          //   decoration:
+                          //       InputDecoration(labelText: 'Phone number'),
+                          //   textInputAction: TextInputAction.done,
+                          //   keyboardType: TextInputType.number,
+                          //   validator: (value) {
+                          //     if (value.isEmpty) {
+                          //       return 'Please enter a phone number';
+                          //     }
+                          //     return null;
+                          //   },
+                          //   onSaved: (value) {
+                          //     _phoneNumber = value;
+                          //   },
+                          // ),
                           SizedBox(height: 20),
                           GestureDetector(
                             onTap: () => _presentDatePicker(context),
