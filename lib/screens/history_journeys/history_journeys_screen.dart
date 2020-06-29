@@ -86,9 +86,6 @@ class _HistoryJourneysScreenState extends State<HistoryJourneysScreen> {
     final _journeys = _journeysData.historyJourneys;
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text('History Journeys'),
-        ),
         body: _isLoading 
         ? Center(child:CircularProgressIndicator())
         : (_journeys.length == 0)

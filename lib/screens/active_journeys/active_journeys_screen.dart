@@ -62,10 +62,6 @@ class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
     var appHeight =
         MediaQuery.of(context).size.height - MediaQuery.of(context).padding.top;
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Want A Companion'),
-        elevation: 0.0,
-      ),
       body: Column(
         children: <Widget>[
           Container(

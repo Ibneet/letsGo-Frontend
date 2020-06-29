@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 
-import '../screens/active_journeys/active_journeys_screen.dart';
-import '../screens/history_journeys/history_journeys_screen.dart';
+import './journeys_screen.dart';
+import '../screens/home/home_screen.dart';
 import '../screens/chat/chat_user_screen.dart';
 import '../screens/user_profile/user_profile_screen.dart';
 
@@ -14,8 +14,8 @@ class TabsScreen extends StatefulWidget {
 
 class _TabsScreenState extends State<TabsScreen> {
   final List<Widget> _screens = [
-    ActiveJourneysScreen(),
-    HistoryJourneysScreen(),
+    HomeScreen(),
+    JourneysScreen(),
     ChatUserScreen(),
     UserProfileScreen()
   ];
@@ -56,25 +56,25 @@ class _TabsScreenState extends State<TabsScreen> {
           BubbleBottomBarItem(
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.location_on,
+                Icons.home,
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.location_on,
+                Icons.home,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text("Active")),
+              title: Text("Home")),
           BubbleBottomBarItem(
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(
-                Icons.history,
+                Icons.swap_vertical_circle,
                 color: Colors.black,
               ),
               activeIcon: Icon(
-                Icons.history,
+                Icons.swap_vertical_circle,
                 color: Theme.of(context).primaryColor,
               ),
-              title: Text("History")),
+              title: Text("Journeys")),
           BubbleBottomBarItem(
               backgroundColor: Theme.of(context).primaryColor,
               icon: Icon(
