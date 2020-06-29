@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
 import './providers/journeys.dart';
 import './providers/auth.dart';
+import './screens/auth/welcome/welcome_screen.dart';
 import './screens/user_details.dart/details_screen.dart';
 import './screens/companion_list/companion_detail_screen.dart';
 import './screens/chat/chat_screen.dart';
@@ -59,7 +60,7 @@ class MyApp extends StatelessWidget {
                         authResultSnapshot.connectionState ==
                                 ConnectionState.waiting
                             ? SplashScreen()
-                            : AuthScreen(),
+                            : WelcomeScreen(),
                   ),
             routes: {
               TabsScreen.routeName: (ctx) => TabsScreen(),
