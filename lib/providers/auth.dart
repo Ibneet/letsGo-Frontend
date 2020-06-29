@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/widgets.dart';
 import 'package:frontend/models/chat_message.dart';
+import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,6 +49,33 @@ class Auth with ChangeNotifier {
       return _userId;
     }
     return null;
+  }
+
+  Future<void> addDetails(String phonenumber, String gender, DateTime dob,
+      String occupation) async {
+    var url = 'http://$port:5000/api/users/details/me';
+    try {
+      final response = await http.patch(url,
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': 'Bearer $_token'
+          },
+          body: json.encode({
+            "phone_number": phonenumber,
+            "gender": gender,
+            "dob": DateFormat.yMMMMd().format(dob),
+            "occupation": occupation,
+          }));
+      final responseData = json.decode(response.body);
+      if (responseData['message'] != null) {
+        throw HttpException(responseData['message']);
+      }
+      print(responseData);
+
+      notifyListeners();
+    } catch (err) {
+      throw err;
+    }
   }
 
   String _idchat;
