@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import 'package:intl/intl.dart';
 
 import '../../providers/auth.dart';
+import '../../screens/tabs_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
   @override
@@ -91,7 +92,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     setState(() {
       _isLoading = false;
     });
-
+    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
     // Navigator.of(context).pop();
   }
 

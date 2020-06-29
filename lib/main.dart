@@ -62,6 +62,7 @@ class MyApp extends StatelessWidget {
                             : AuthScreen(),
                   ),
             routes: {
+              TabsScreen.routeName: (ctx) => TabsScreen(),
               CompanionDetailScreen.routeName: (ctx) => CompanionDetailScreen(),
               ChatScreen.routeName: (ctx) => ChatScreen(),
               CompanionListScreen.routeName: (ctx) => CompanionListScreen(),
