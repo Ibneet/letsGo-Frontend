@@ -5,6 +5,7 @@ import 'package:provider/provider.dart';
 import './screens/tabs_screen.dart';
 import './providers/journeys.dart';
 import './providers/auth.dart';
+import 'screens/user_details.dart/details_screen.dart';
 import './screens/companion_list/companion_detail_screen.dart';
 import './screens/chat/chat_screen.dart';
 import './screens/companion_list/companion_list_screen.dart';
@@ -27,8 +28,7 @@ class MyApp extends StatelessWidget {
           ),
           ChangeNotifierProxyProvider<Auth, Journeys>(
             update: (ctx, auth, prevJourneys) => Journeys(
-                auth.token, 
-                prevJourneys == null ? [] : prevJourneys.items),
+                auth.token, prevJourneys == null ? [] : prevJourneys.items),
           )
         ],
         child: Consumer<Auth>(
@@ -52,7 +52,7 @@ class MyApp extends StatelessWidget {
                       ),
                 )),
             home: auth.isAuth
-                ? TabsScreen()
+                ? auth.isSignUpTrue ? DetailsScreen() : TabsScreen()
                 : FutureBuilder(
                     future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>

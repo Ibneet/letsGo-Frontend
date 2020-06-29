@@ -18,6 +18,12 @@ class Auth with ChangeNotifier {
 
   List<ChatMessage> _chats = [];
 
+  bool isSignUp = false;
+
+  bool get isSignUpTrue {
+    return isSignUp;
+  }
+
   bool get isAuth {
     return token != null;
   }
@@ -82,6 +88,7 @@ class Auth with ChangeNotifier {
       }
       _token = responseData['token'];
       _userId = responseData['createdUser']['_id'];
+      isSignUp = true;
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({'token': _token, 'userId': _userId});
@@ -158,7 +165,7 @@ class Auth with ChangeNotifier {
         url,
         headers: {'Authorization': 'Bearer $_token'},
       );
-      
+
       print('IdChat: $idchat');
       final responseData = json.decode(response.body);
       print('getChats $responseData');
@@ -187,8 +194,7 @@ class Auth with ChangeNotifier {
   }
 
   Future<void> getChatUsers() async {
-    var url =
-        'http://$port:5000/api/chatuser/userChats';
+    var url = 'http://$port:5000/api/chatuser/userChats';
     try {
       final response = await http.get(
         url,
@@ -204,10 +210,9 @@ class Auth with ChangeNotifier {
       final List<User> chatUsersData = [];
       extractedData.forEach((chatUser) {
         chatUsersData.add(User(
-          uid: chatUser['_id'],
-          name: chatUser['name'],
-          imageUrl: chatUser['image']
-        ));
+            uid: chatUser['_id'],
+            name: chatUser['name'],
+            imageUrl: chatUser['image']));
       });
       print(chatUsersData);
       _chatUsers = chatUsersData;
