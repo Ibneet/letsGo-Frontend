@@ -104,7 +104,6 @@ class _HistoryJourneysScreenState extends State<HistoryJourneysScreen> {
                       _journeys[index].from,
                       _journeys[index].to,
                       _journeys[index].date,
-                      _journeys[index].name,
                       active);
                 },
                 scrollDirection: Axis.horizontal,

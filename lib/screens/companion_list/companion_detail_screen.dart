@@ -16,45 +16,45 @@ class CompanionDetailScreen extends StatefulWidget {
 class _CompanionDetailScreenState extends State<CompanionDetailScreen> {
   var _isLoading = false;
 
-  void _showErrorDialog(String message){
-    showDialog(
-      context: context,
-      builder:(ctx) => AlertDialog(
-        title: Text('An Error Occurred!'),
-        content: Text(message),
-        actions: <Widget>[
-          FlatButton(
-            child: Text('OK'),
-            onPressed: (){
-              Navigator.of(ctx).pop();
-            }, 
-          )
-        ],
-      )
-    );
-  }
+  // void _showErrorDialog(String message){
+  //   showDialog(
+  //     context: context,
+  //     builder:(ctx) => AlertDialog(
+  //       title: Text('An Error Occurred!'),
+  //       content: Text(message),
+  //       actions: <Widget>[
+  //         FlatButton(
+  //           child: Text('OK'),
+  //           onPressed: (){
+  //             Navigator.of(ctx).pop();
+  //           }, 
+  //         )
+  //       ],
+  //     )
+  //   );
+  // }
 
-  Future<void> _foundCompanion(String jid, String toId) async {
-    print('jid: $jid, toId: $toId');
-    setState(() {
-      _isLoading = true;
-    });
-    try{
-      await Provider.of<Journeys>(context, listen: false).foundCompanion(
-        jid,
-        toId
-      );
-    }on HttpException catch(err){
-      final errMess = err.toString();
-      _showErrorDialog(errMess);
-    }catch(err){
-      const errMess = 'Could not add the journey, please try again later.';
-      _showErrorDialog(errMess);
-    }
-    setState(() {
-      _isLoading = false;
-    });
-  }
+  // Future<void> _foundCompanion(String jid, String toId) async {
+  //   print('jid: $jid, toId: $toId');
+  //   setState(() {
+  //     _isLoading = true;
+  //   });
+  //   try{
+  //     await Provider.of<Journeys>(context, listen: false).foundCompanion(
+  //       jid,
+  //       toId
+  //     );
+  //   }on HttpException catch(err){
+  //     final errMess = err.toString();
+  //     _showErrorDialog(errMess);
+  //   }catch(err){
+  //     const errMess = 'Could not add the journey, please try again later.';
+  //     _showErrorDialog(errMess);
+  //   }
+  //   setState(() {
+  //     _isLoading = false;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -198,9 +198,7 @@ class _CompanionDetailScreenState extends State<CompanionDetailScreen> {
                                       0.0,
                                     ),
                                     child: InkWell(
-                                      onTap: () {
-                                        _foundCompanion(jid, toId);
-                                      },
+                                      onTap: () {},
                                       child: Material(
                                         borderRadius:
                                             BorderRadius.circular(20.0),

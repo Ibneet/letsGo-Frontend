@@ -6,7 +6,6 @@ class Journey with ChangeNotifier{
   final String from;
   final String to;
   final DateTime date;
-  String withWhom;
 
   Journey({
     @required this.jid,
@@ -14,7 +13,6 @@ class Journey with ChangeNotifier{
     @required this.from,
     @required this.to,
     @required this.date,
-    @required this.withWhom 
   });
 }
 

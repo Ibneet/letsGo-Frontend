@@ -15,7 +15,7 @@ class Journeys with ChangeNotifier {
 
   List<Companion> _companions = [];
 
-  List<Companion> _historyJourneys = [];
+  List<Journey> _historyJourneys = [];
 
   final String _authToken;
 
@@ -33,20 +33,16 @@ class Journeys with ChangeNotifier {
     return _authToken;
   }
 
-  List<Companion> get historyJourneys {
+  List<Journey> get historyJourneys {
     return [..._historyJourneys];
   }
 
   int get countHistJourneys {
-    List<Journey> histJourneys =
-        _items.where((journey) => journey.withWhom == null).toList();
-    return (historyJourneys == null) ? 0 : histJourneys.length;
+    return (_historyJourneys == null) ? 0 : _historyJourneys.length;
   }
 
   int get countCurrJourneys {
-    List<Journey> currJourneys =
-        _items.where((journey) => journey.withWhom != null).toList();
-    return (currJourneys == null) ? 0 : currJourneys.length;
+    return (_items == null) ? 0 : _items.length;
   }
 
   String id;
@@ -72,8 +68,8 @@ class Journeys with ChangeNotifier {
             from: journey['from'],
             to: journey['to'],
             date: DateTime.parse(journey['date']),
-            // creator: journey['creator'],
-            withWhom: journey['withWhom']));
+          )
+        );
       });
       _items = journeyData;
       // print(responseData['journey']);
@@ -96,15 +92,15 @@ class Journeys with ChangeNotifier {
         _historyJourneys = [];
         throw HttpException(responseData['message']);
       }
-      final extractedData = responseData['journeys'] as List<dynamic>;
-      final List<Companion> journeyData = [];
+      final extractedData = responseData['journey'] as List<dynamic>;
+      final List<Journey> journeyData = [];
       extractedData.forEach((journey) {
-        journeyData.add(Companion(
+        journeyData.add(Journey(
             jid: journey['jid'],
             from: journey['from'],
             to: journey['to'],
             date: DateTime.parse(journey['date']),
-            name: journey['j']['name']));
+          ));
       });
       _historyJourneys = journeyData;
       // print(responseData['journey']);
@@ -138,7 +134,7 @@ class Journeys with ChangeNotifier {
           from: from,
           to: to,
           date: dateTime,
-          withWhom: null);
+        );
       _items.add(newJourney);
       id = responseData['journey']['creator'];
       notifyListeners();
@@ -184,22 +180,22 @@ class Journeys with ChangeNotifier {
     }
   }
 
-  Future<void> foundCompanion(String jid, String toId) async {
-    var url = 'http://$port:5000/api/journeys/$jid/$toId';
-    try {
-      final response = await http.patch(url,
-          headers: {
-            'Content-Type': 'application/json',
-            'Authorization': 'Bearer $authToken'
-          });
-      final responseData = json.decode(response.body);
-      if (responseData['message'] != null) {
-        throw HttpException(responseData['message']);
-      }
-      print(responseData);
-      notifyListeners();
-    } catch (err) {
-      throw err;
-    }
-  }
+  // Future<void> foundCompanion(String jid, String toId) async {
+  //   var url = 'http://$port:5000/api/journeys/$jid/$toId';
+  //   try {
+  //     final response = await http.patch(url,
+  //         headers: {
+  //           'Content-Type': 'application/json',
+  //           'Authorization': 'Bearer $authToken'
+  //         });
+  //     final responseData = json.decode(response.body);
+  //     if (responseData['message'] != null) {
+  //       throw HttpException(responseData['message']);
+  //     }
+  //     print(responseData);
+  //     notifyListeners();
+  //   } catch (err) {
+  //     throw err;
+  //   }
+  // }
 }

@@ -8,23 +8,16 @@ class HistoryJourneysList extends StatelessWidget {
   final String from;
   final String to;
   final DateTime date;
-  final String withWhom;
 
-  HistoryJourneysList(this.jid, this.from, this.to, this.date, this.withWhom);
+  HistoryJourneysList(this.jid, this.from, this.to, this.date);
 
   @override
   Widget build(BuildContext context) {
-    final imageUrl = dummyUsers.singleWhere((user) {
-      if (user.uid == withWhom) {
-        return true;
-      }
-      return false;
-    });
     return ClipRRect(
       borderRadius: BorderRadius.circular(15),
       child: GridTile(
         child: Image.network(
-          imageUrl.imageUrl,
+          'https://pm1.narvii.com/6707/89127fd49ab28bed5009b4a0dee5d08fcd26bd4b_hq.jpg',
           fit: BoxFit.cover,
         ),
         footer: GridTileBar(

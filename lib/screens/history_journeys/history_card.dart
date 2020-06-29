@@ -7,11 +7,10 @@ class HistoryCard extends StatelessWidget {
   final String from;
   final String to;
   final DateTime date;
-  final String withWhom;
   final bool active;
 
   HistoryCard(
-      this.jid, this.from, this.to, this.date, this.withWhom, this.active);
+      this.jid, this.from, this.to, this.date, this.active);
 
   @override
   Widget build(BuildContext context) {
@@ -66,15 +65,6 @@ class HistoryCard extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: <Widget>[
-                  Center(
-                    child: Text(
-                      '$withWhom',
-                      style: TextStyle(
-                        fontSize: 20,
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
                   Center(
                     child: Text(
                       DateFormat.yMMMd().format(date),

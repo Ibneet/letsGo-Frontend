@@ -22,8 +22,7 @@ class HistoryGrid extends StatelessWidget {
           historyJourneys[i].jid, 
           historyJourneys[i].from, 
           historyJourneys[i].to, 
-          historyJourneys[i].date,
-          historyJourneys[i].withWhom
+          historyJourneys[i].date
         ),
       ), 
 

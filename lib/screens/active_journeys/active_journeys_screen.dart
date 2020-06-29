@@ -87,7 +87,6 @@ class _ActiveJourneysScreenState extends State<ActiveJourneysScreen> {
                     journeyDate: journey.date,
                     journeyDestination: journey.to,
                     journeySource: journey.from,
-                    journeyWith: journey.withWhom,
                   );
                 },
               ).toList(),
