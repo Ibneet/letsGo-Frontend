@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../../Login/login_screen.dart';
 import '../../Signup/components/background.dart';
-import '../../Signup/components/or_divider.dart';
-import '../../Signup/components/social_icon.dart';
-import '../../already_have_an_account_acheck.dart';
-import '../../rounded_button.dart';
-import '../../rounded_input_field.dart';
-import '../../rounded_password_field.dart';
+import '../../widgets/already_have_an_account_acheck.dart';
+import '../../widgets/rounded_button.dart';
+import '../../widgets/rounded_input_field.dart';
+import '../../widgets/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
@@ -42,7 +41,7 @@ class Body extends StatelessWidget {
             AlreadyHaveAnAccountCheck(
               login: false,
               press: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) {
@@ -52,24 +51,6 @@ class Body extends StatelessWidget {
                 );
               },
             ),
-            OrDivider(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                SocalIcon(
-                  iconSrc: "assets/icons/facebook.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/twitter.svg",
-                  press: () {},
-                ),
-                SocalIcon(
-                  iconSrc: "assets/icons/google-plus.svg",
-                  press: () {},
-                ),
-              ],
-            )
           ],
         ),
       ),

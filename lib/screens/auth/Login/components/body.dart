@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
+
 import '../../Login/components/background.dart';
 import '../../Signup/signup_screen.dart';
-import '../../already_have_an_account_acheck.dart';
-import '../../rounded_button.dart';
-import '../../rounded_input_field.dart';
-import '../../rounded_password_field.dart';
+import '../../widgets/already_have_an_account_acheck.dart';
+import '../../widgets/rounded_button.dart';
+import '../../widgets/rounded_input_field.dart';
+import '../../widgets/rounded_password_field.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Body extends StatelessWidget {
@@ -44,7 +45,7 @@ class Body extends StatelessWidget {
             SizedBox(height: size.height * 0.03),
             AlreadyHaveAnAccountCheck(
               press: () {
-                Navigator.push(
+                Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(
                     builder: (context) {

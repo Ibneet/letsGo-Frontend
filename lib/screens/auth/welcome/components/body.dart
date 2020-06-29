@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
+
 import '../../Login/login_screen.dart';
 import '../../Signup/signup_screen.dart';
 import '../components/background.dart';
-import '../../rounded_button.dart';
+import '../../widgets/rounded_button.dart';
 
 import 'package:flutter_svg/svg.dart';
 
