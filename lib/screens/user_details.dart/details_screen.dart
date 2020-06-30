@@ -6,6 +6,7 @@ import '../../providers/auth.dart';
 import '../../screens/tabs_screen.dart';
 
 class DetailsScreen extends StatefulWidget {
+  static const routeName = '/details';
   @override
   _DetailsScreenState createState() => _DetailsScreenState();
 }
@@ -91,12 +92,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
     });
     try {
       // Log user in
-      await Provider.of<Auth>(context, listen: false).addDetails(
+      await Provider.of<Auth>(context, listen: false)
+          .addDetails(
         _phoneNumber,
         _gender,
         _dob,
         _occupation,
-      );
+      )
+          .then((_) {
+        Navigator.of(context).pushReplacementNamed('/');
+      });
     } catch (err) {
       const errMess =
           'Could not perform the specific action, please try again later.';
@@ -105,7 +110,7 @@ class _DetailsScreenState extends State<DetailsScreen> {
     setState(() {
       _isLoading = false;
     });
-    Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
+    // Navigator.of(context).pushReplacementNamed(TabsScreen.routeName);
     // Navigator.of(context).pop();
   }
 

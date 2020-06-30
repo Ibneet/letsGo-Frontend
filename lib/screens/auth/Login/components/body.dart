@@ -63,7 +63,10 @@ class _BodyState extends State<Body> {
     try {
       // Log user in
       await Provider.of<Auth>(context, listen: false)
-          .login(_authData['email'], _authData['password']);
+          .login(_authData['email'], _authData['password'])
+          .then((_) {
+        Navigator.of(context).pushReplacementNamed('/');
+      });
     } on HttpException catch (err) {
       final errMess = err.toString();
       _showErrorDialog(errMess);
@@ -130,7 +133,7 @@ class _BodyState extends State<Body> {
               SizedBox(height: size.height * 0.03),
               AlreadyHaveAnAccountCheck(
                 press: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {

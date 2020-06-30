@@ -19,10 +19,10 @@ class Auth with ChangeNotifier {
 
   List<ChatMessage> _chats = [];
 
-  bool isSignUp = false;
+  bool _isSignUp = false;
 
   bool get isSignUpTrue {
-    return isSignUp;
+    return _isSignUp;
   }
 
   bool get isAuth {
@@ -116,7 +116,7 @@ class Auth with ChangeNotifier {
       }
       _token = responseData['token'];
       _userId = responseData['createdUser']['_id'];
-      isSignUp = true;
+      _isSignUp = true;
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({'token': _token, 'userId': _userId});

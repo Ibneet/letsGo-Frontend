@@ -59,7 +59,10 @@ class _BodyState extends State<Body> {
     try {
       // Sign user up
       await Provider.of<Auth>(context, listen: false)
-          .signup(_authData['name'], _authData['email'], _authData['password']);
+          .signup(_authData['name'], _authData['email'], _authData['password'])
+          .then((_) {
+        Navigator.of(context).pushReplacementNamed('/details');
+      });
     } on HttpException catch (err) {
       final errMess = err.toString();
       _showErrorDialog(errMess);
@@ -148,7 +151,7 @@ class _BodyState extends State<Body> {
               AlreadyHaveAnAccountCheck(
                 login: false,
                 press: () {
-                  Navigator.pushReplacement(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(
                       builder: (context) {

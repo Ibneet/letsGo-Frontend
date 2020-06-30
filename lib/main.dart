@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
                       ),
                 )),
             home: auth.isAuth
-                ? auth.isSignUpTrue ? DetailsScreen() : TabsScreen()
+                ? TabsScreen()
                 : FutureBuilder(
                     // future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
@@ -63,6 +63,7 @@ class MyApp extends StatelessWidget {
                             : WelcomeScreen(),
                   ),
             routes: {
+              DetailsScreen.routeName: (ctx) => DetailsScreen(),
               TabsScreen.routeName: (ctx) => TabsScreen(),
               CompanionDetailScreen.routeName: (ctx) => CompanionDetailScreen(),
               ChatScreen.routeName: (ctx) => ChatScreen(),
