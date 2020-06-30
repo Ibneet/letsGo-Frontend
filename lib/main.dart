@@ -11,7 +11,7 @@ import './screens/companion_list/companion_detail_screen.dart';
 import './screens/chat/chat_screen.dart';
 import './screens/companion_list/companion_list_screen.dart';
 import './screens/user_profile_edit/user_profile_edit_screen.dart';
-import './screens/auth/auth_screen.dart';
+// import './screens/auth/auth_screen.dart';
 import './screens/splash_screen.dart';
 
 void main() {

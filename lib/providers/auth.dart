@@ -135,6 +135,7 @@ class Auth with ChangeNotifier {
           },
           body: json.encode({"email": email, "password": password}));
       final responseData = json.decode(response.body);
+
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);
       }
@@ -143,6 +144,7 @@ class Auth with ChangeNotifier {
       notifyListeners();
       final prefs = await SharedPreferences.getInstance();
       final userData = json.encode({'token': _token, 'userId': _userId});
+
       prefs.setString('userData', userData);
     } catch (err) {
       throw err;
