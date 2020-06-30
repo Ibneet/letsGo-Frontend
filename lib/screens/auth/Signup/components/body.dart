@@ -143,7 +143,7 @@ class _BodyState extends State<Body> {
               if (_isLoading)
                 CircularProgressIndicator()
               else
-                RoundedButton(
+                RoundedButton(color: Theme.of(context).primaryColor,
                   text: "SIGNUP",
                   press: _submit,
                 ),

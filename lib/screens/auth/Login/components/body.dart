@@ -127,6 +127,7 @@ class _BodyState extends State<Body> {
                 CircularProgressIndicator()
               else
                 RoundedButton(
+                  color: Theme.of(context).primaryColor,
                   text: "LOGIN",
                   press: _submit,
                 ),

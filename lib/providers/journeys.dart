@@ -121,8 +121,9 @@ class Journeys with ChangeNotifier {
           body: json.encode({
             "from": from,
             "to": to,
-            "date": DateFormat.yMMMMd().format(dateTime)
+            "date": DateFormat().addPattern('yyyy-MM-dd').format(dateTime)
           }));
+          print(DateFormat.yMd().format(dateTime));
       final responseData = json.decode(response.body);
       if (responseData['message'] != null) {
         throw HttpException(responseData['message']);

@@ -37,6 +37,8 @@ class MyApp extends StatelessWidget {
             title: 'letsGo',
             theme: ThemeData(
                 primarySwatch: Colors.purple,
+                primaryColor: Color(0xFF2A0B35),
+                scaffoldBackgroundColor: Color(0xFFf2f2f2),
                 accentColor: Colors.pink[100],
                 fontFamily: 'GentiumBookBasic',
                 textTheme: ThemeData.light().textTheme.copyWith(
@@ -55,7 +57,7 @@ class MyApp extends StatelessWidget {
             home: auth.isAuth
                 ? TabsScreen()
                 : FutureBuilder(
-                    // future: auth.tryAutoLogin(),
+                    future: auth.tryAutoLogin(),
                     builder: (ctx, authResultSnapshot) =>
                         authResultSnapshot.connectionState ==
                                 ConnectionState.waiting
